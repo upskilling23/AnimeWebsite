@@ -1,0 +1,32 @@
+{
+  "name": "knowyouranime",
+  "version": "1.0.0",
+  "description": "Know your anime",
+  "scripts": {
+    "test": "jest"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/rithick03krishna/KnowYourAnime.git"
+  },
+  "keywords": [
+    "react"
+  ],
+  "author": "Rithick",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/rithick03krishna/KnowYourAnime/issues"
+  },
+  "homepage": "https://github.com/rithick03krishna/KnowYourAnime#readme",
+  "dependencies": {
+    "parcel": "^2.12.0",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "react-router-dom": "^6.24.1",
+    "typescript": "^5.5.3"
+  },
+  "devDependencies": {
+    "postcss": "^8.4.39",
+    "tailwindcss": "^3.4.4"
+  }
+}

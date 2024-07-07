@@ -6,7 +6,8 @@ import { createBrowserRouter, Outlet, RouterProvider } from "react-router-dom";
 import { LoginPage } from "./pages/LoginPage";
 import { Home } from "./pages/HomePage";
 import { Footer } from "./components/Footer";
-import { HomeCenterSection } from "./components/HomeCerterSection";
+import { HomeCenterSection } from "./components/HomeCenterSection";
+import { Survey } from "./pages/Survey";
 
 export const Applayout = () => {
   return (
@@ -27,6 +28,15 @@ const appRouter = createBrowserRouter([
             <Header statusOption={"logged"}></Header>
             <CenterSection></CenterSection>
             <Footer></Footer>
+          </>
+        ),
+      },
+      {
+        path: "/survey",
+        element: (
+          <>
+            <Header statusOption={"loggedIn"}></Header>
+            <Survey></Survey>
           </>
         ),
       },

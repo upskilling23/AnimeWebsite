@@ -14,18 +14,13 @@ export const NavBar = (status: loggedin) => {
     }
   }, [status.statusOption]);
   return (
-    <div className="static h-[250px] bg-orange-100 box-border border-spacing-1 border-y-4">
+    <div className="static h-[150px] bg-orange-100 box-border border-spacing-1 border-y-4">
       <div className="comp flex justify-between">
         <div>
-          <img className="w-[250px] h-[250px]" src={ImageUrl.Logo}></img>
+          <img className="w-[140px] h-[140px]" src={ImageUrl.Logo}></img>
         </div>
         {statusValue ? (
-          <h1
-            className="text-8xl px-20 my-1
-        ?"
-          >
-            Hi {""}
-          </h1>
+          <h1 className="text-4xl px-20 my-1 pt-8">Hi {""}</h1>
         ) : (
           <div className="py-9 my-auto">
             <Link to="/login">

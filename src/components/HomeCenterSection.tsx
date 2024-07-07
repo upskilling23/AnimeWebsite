@@ -6,7 +6,7 @@ export const HomeCenterSection = () => {
   const [showindex, setshowindex] = useState(null);
 
   return (
-    <div className="w-full h-[2000px]">
+    <div className="w-full h-[600px]">
       <div className="mt-[10%]">
         {mockData.map((value, index) => {
           return (

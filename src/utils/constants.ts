@@ -5,3 +5,9 @@ export enum ImageUrl {
   BgImageLogin = "https://c4.wallpaperflare.com/wallpaper/469/818/500/kimi-no-na-wa-your-name-wallpaper-preview.jpg",
   DefaultPlaceholderImage = "https://img.freepik.com/premium-photo/image-file-icon-3d-render-illustration_567294-3412.jpg?w=996",
 }
+
+export const mockData = [
+  { title: "Attack on Titan", rating: 4.8, count: " Season 4" },
+  { title: "Naruto", rating: 4.7, count: " Season 21" },
+  { title: "One Piece", rating: 4.9, count: " Season 20" },
+];

@@ -5,6 +5,8 @@ import { CenterSection } from "./pages/CenterSection";
 import { createBrowserRouter, Outlet, RouterProvider } from "react-router-dom";
 import { LoginPage } from "./pages/LoginPage";
 import { Home } from "./pages/HomePage";
+import { Footer } from "./components/Footer";
+import { HomeCenterSection } from "./components/HomeCerterSection";
 
 export const Applayout = () => {
   return (
@@ -24,6 +26,7 @@ const appRouter = createBrowserRouter([
           <>
             <Header statusOption={"logged"}></Header>
             <CenterSection></CenterSection>
+            <Footer></Footer>
           </>
         ),
       },
@@ -37,6 +40,8 @@ const appRouter = createBrowserRouter([
           <>
             <Header statusOption={"loggedIn"}></Header>
             <Home></Home>
+            <HomeCenterSection></HomeCenterSection>
+            <Footer></Footer>
           </>
         ),
       },

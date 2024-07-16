@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { mockQuestions } from "../utils/constants";
 import { useDispatch, useSelector } from "react-redux";
-import { addedSurveyItem } from "../utils/answersSlice";
+import { addedSurveyItem } from "../utils/redux/answersSlice";
 import { RootState } from "../utils/appStore";
 import { useNavigate } from "react-router-dom";
 

@@ -1,7 +1,7 @@
 import { combineReducers, configureStore } from "@reduxjs/toolkit";
-import watchlistSlice from "./watchlistSlice";
-import watchedSlice from "./watchedSlice";
-import answersSlice from "./answersSlice";
+import watchlistSlice from "./redux/watchlistSlice";
+import watchedSlice from "./redux/watchedSlice";
+import answersSlice from "./redux/answersSlice";
 import storage from "redux-persist/lib/storage";
 import { persistReducer, persistStore } from "redux-persist";
 

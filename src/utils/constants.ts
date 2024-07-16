@@ -13,6 +13,8 @@ export enum ImageUrl {
   BgImageLogin = "https://c4.wallpaperflare.com/wallpaper/469/818/500/kimi-no-na-wa-your-name-wallpaper-preview.jpg",
   DefaultPlaceholderImage = "https://img.freepik.com/premium-photo/image-file-icon-3d-render-illustration_567294-3412.jpg?w=996",
   SurveyWelcomeScreen = "https://c4.wallpaperflare.com/wallpaper/460/119/714/anime-attack-on-titan-armin-arlert-eren-yeager-wallpaper-preview.jpg",
+  WatchListScreen = "https://w0.peakpx.com/wallpaper/1002/321/HD-wallpaper-awsomeness1-anime-best.jpg",
+  SignUpScreen = "https://wallpapers-clan.com/wp-content/uploads/2024/04/zenitsu-tanjiro-nezuko-demon-slayer-desktop-wallpaper-preview.jpg",
 }
 
 export const mockData: Content[] = [

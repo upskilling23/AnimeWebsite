@@ -42,6 +42,13 @@ export const NavBar = (status: loggedin) => {
           </>
         ) : (
           <div className="py-9 my-auto">
+            <Link to="/sign-up">
+              {" "}
+              <ButtonComponent
+                content={"Sign Up"}
+                styleValue={"px-3 mx-6 bg-gray-400 h-12 text-4xl font-bold"}
+              ></ButtonComponent>
+            </Link>
             <Link to="/login">
               {" "}
               <ButtonComponent

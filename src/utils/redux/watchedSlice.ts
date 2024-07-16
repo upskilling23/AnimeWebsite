@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { Content } from "../components/Accordion";
+import { Content } from "../../components/Accordion";
 
 export interface CartState {
   items: Content[];

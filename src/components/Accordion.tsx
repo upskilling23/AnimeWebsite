@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import { ImageUrl } from "../utils/constants";
 import { useDispatch, useSelector } from "react-redux";
-import { addItem } from "../utils/watchlistSlice";
-import { addedItem, CartState } from "../utils/watchedSlice";
+import { addItem } from "../utils/redux/watchlistSlice";
+import { addedItem, CartState } from "../utils/redux/watchedSlice";
 import { RootState } from "../utils/appStore";
 import { Modal } from "./Modal";
 import { Dispatch, PayloadAction } from "@reduxjs/toolkit";

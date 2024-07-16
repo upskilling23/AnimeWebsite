@@ -22,7 +22,7 @@ export const Home = () => {
     <div className="h-[800px] bg-gray-50">
       {showSurvey && (
         <div className="pt-[5%] bg-gray-50 ml-[40%]">
-          <Link to="/survey">
+          <Link to="/survey-welcome">
             <div className="cursor-pointer inline-block hover:bg-slate-100 box-border rounded-lg items-center border-black h-fit border-spacing-2 border-y-2 shadow-lg border-x-2  w-3/12">
               <h1 className="text-3xl text-wrap text-center">
                 Click to take survey

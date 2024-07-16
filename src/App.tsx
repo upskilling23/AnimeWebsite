@@ -14,6 +14,7 @@ import { appStore, persistor } from "./utils/appStore";
 import { StrictMode } from "react";
 import { SurveyWelcome } from "./pages/SurveyWelcome";
 import { PersistGate } from "redux-persist/integration/react";
+import { SignUpPage } from "./pages/SignUp";
 
 export const Applayout = () => {
   return (
@@ -51,6 +52,10 @@ const appRouter = createBrowserRouter([
             </StrictMode>
           </>
         ),
+      },
+      {
+        path: "/sign-up",
+        element: <SignUpPage></SignUpPage>,
       },
       {
         path: "/login",

@@ -13,8 +13,11 @@ const answersSlice = createSlice({
     addedSurveyItem: (state, action) => {
       state.items.push(action.payload);
     },
+    clearSurvey: (state) => {
+      state.items.length = 0;
+    },
   },
 });
 
-export const { addedSurveyItem } = answersSlice.actions;
+export const { addedSurveyItem, clearSurvey } = answersSlice.actions;
 export default answersSlice.reducer;

@@ -3,7 +3,7 @@ import { Accordion } from "./Accordion";
 import { mockData } from "../utils/constants";
 
 export const HomeCenterSection = () => {
-  const [showindex, setshowindex] = useState(null);
+  const [showindex, setShowindex] = useState(null);
 
   return (
     <div className="w-full h-[600px]">
@@ -13,7 +13,7 @@ export const HomeCenterSection = () => {
             <div key={index}>
               <Accordion
                 toggleValue={index === showindex ? true : false}
-                indexState={() => setshowindex(index)}
+                indexState={() => setShowindex(index)}
                 decription={value}
               ></Accordion>
             </div>

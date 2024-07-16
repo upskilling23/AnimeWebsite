@@ -7,10 +7,11 @@ import { useSelector } from "react-redux";
 import { RootState } from "../utils/appStore";
 
 export const NavBar = (status: loggedin) => {
-  const [statusValue, setStatusValue] = useState(false);
+  const [statusValue, setStatusValue] = useState(false); //checking state of user whether logged in or not
   const locatorFromStoreForWatchListItems = useSelector(
     (store: RootState) => store.watchlist.items,
   );
+  // fetching items from redux to update the watchlist
   useEffect(() => {
     if (status.statusOption === "loggedIn") {
       setStatusValue(true);

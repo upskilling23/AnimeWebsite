@@ -2,37 +2,17 @@ import React, { useState, useEffect } from "react";
 import { AnimeCard } from "../components/AnimeCards";
 import { mockData } from "../utils/constants";
 import { Link } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import { RootState } from "../utils/appStore";
-import { addedSurveyItem } from "../utils/answersSlice";
 
 export const Home = () => {
   const [showSurvey, setShowSurvey] = useState(false);
-  const dispatch = useDispatch();
+  // redirecting to home if survey is completed
   const locateAnswersFromStore = useSelector(
     (store: RootState) => store.surveyAnswers.items,
   );
-  // const answer: string[] = []
-  // answer.push(window.localStorage.getItem('00') || "{}")
-  // answer.push(window.localStorage.getItem('10') || "{}")
-  // answer.push(window.localStorage.getItem('20') || "{}")
-  // answer.forEach((val)=>
-  //   {
-  //     dispatch(addedSurveyItem(val))
-  //   })
-
-  // const answer: string[] = []
-  // answer.push(window.localStorage.getItem('00') || "{}")
-  // answer.push(window.localStorage.getItem('10') || "{}")
-  // answer.push(window.localStorage.getItem('20') || "{}")
-  // answer.forEach((val)=>
-  //   {
-  //     dispatch(addedSurveyItem(val))
-  //   })
-  //   {console.log(answer)}
-
+  // fetching answers from reddux store to check user completedd the survey or not
   useEffect(() => {
-    console.log(locateAnswersFromStore);
     if (locateAnswersFromStore.every((val) => val.includes("{}")) === true) {
       setShowSurvey(true);
     }

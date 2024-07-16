@@ -1,22 +1,22 @@
 import React, { useEffect, useState } from "react";
 import { mockQuestions } from "../utils/constants";
-import { ButtonComponent } from "../components/ButtonComponent";
-import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { addedSurveyItem } from "../utils/answersSlice";
 import { RootState } from "../utils/appStore";
 import { useNavigate } from "react-router-dom";
 
 export const Survey = () => {
-  const [quesIndex, setQuesIndex] = useState(0);
-  const [ansIndex, setAnsIndex] = useState(null);
-  const [selectAnswer, setSelectAnswer] = useState(false);
+  const [quesIndex, setQuesIndex] = useState(0); // updating question index
+  const [ansIndex, setAnsIndex] = useState(null); // updating answer index
+  const [selectAnswer, setSelectAnswer] = useState(false); // checking whether answer is selected and to update the colour of the div
   const colour = "bg-green-300";
-  const dispatch = useDispatch();
+  const dispatch = useDispatch(); // for sending answers to redux store
   const navigate = useNavigate();
   const locateAnswersFromStore = useSelector(
     (store: RootState) => store.surveyAnswers.items,
   );
+
+  // fetching answers from redux store
 
   useEffect(() => {
     if (locateAnswersFromStore.length === 3) {
@@ -25,6 +25,8 @@ export const Survey = () => {
       navigate("/survey");
     }
   }, [locateAnswersFromStore.length, navigate]);
+
+  // On clicking answer, answer index will be updated and bg colour will be updated
   const handleAnswersClick = (index: number, id: number, val: string) => {
     setAnsIndex(index);
     if (index === ansIndex && quesIndex === id) {
@@ -32,41 +34,22 @@ export const Survey = () => {
     } else {
       setSelectAnswer(false);
     }
-    if (val !== null) {
-      window.localStorage.setItem(`${id}`, `${val}`);
-    }
   };
+
+  // On submitting answer, answer index will be passed to redux store
   const handleClick = () => {
     const answer = window.localStorage.getItem(quesIndex.toString());
-    window.localStorage.setItem(`${quesIndex}0`, answer ?? "");
     dispatch(addedSurveyItem(answer ?? ""));
-
     if (quesIndex < mockQuestions.length - 1) {
       setQuesIndex(quesIndex + 1);
       setAnsIndex(null);
     } else {
-      // Clear localStorage after the last question is answered
-      window.localStorage.clear();
-
       // Navigate to the home page
       navigate("/home");
     }
   };
-  // const handleClick = () => {
-  //   if (quesIndex < mockQuestions.length - 1) {
 
-  //     const answer = window.localStorage.getItem(quesIndex)
-  //     window.localStorage.setItem(`${quesIndex}0`,answer ?? '')
-  //     dispatch(addedSurveyItem(answer))
-  //     setQuesIndex(quesIndex + 1);
-  //     setAnsIndex(false)
-  //   }
-  //   else{
-  //     const answer = window.localStorage.getItem(quesIndex)
-  //     window.localStorage.setItem(`${quesIndex}0`,answer ?? '')
-  //     dispatch(addedSurveyItem(answer))
-  //   }
-  // };
+  // on clicking back, redirecting to previous question
   const BackClick = () => {
     if (quesIndex !== 0 && quesIndex <= mockQuestions.length - 1) {
       setQuesIndex(quesIndex - 1);
@@ -136,79 +119,3 @@ export const Survey = () => {
     </>
   );
 };
-
-// export const Survey =()=>
-// {
-//   return (
-//         <>
-//           <div className="">
-//             <div className="h-[160px] bg-gray-300 flex flex-row justify-self-start items-center">
-//              {
-//               mockQuestions.map((question,index)=>
-//               {
-//                 return (
-//                 <>
-//                 <h1 key= {index} className="text-4xl">
-//                   {question.question}
-//                 </h1>
-//                 {
-//                   question.answer.map((answerOption, answerIndex)=>
-//                   {
-
-//                     return(<>
-//                     <div key={answerIndex}className=" box-border border-spacing-1 border-y-8 shadow-sm  border-x-8  w-6/12 h-[100px]">
-//                     <div className={`cursor-pointer flex flex-row justify-between items-center`}>
-//                       <div>
-//                         <h1 className="text-4xl w-full"> {answerOption}</h1>
-//                       </div>
-//                     </div>
-//                   </div>
-//                     </>)
-//                   })
-
-//                 }
-//                 </>
-//                 )
-//               })
-//              }
-
-//             </div>
-//           </div>
-//           <div className="">
-//             <div className="h-[400px] bg-gray-400 flex flex-col items-center ">
-//               {/* {mockQuestions[quesIndex].answer.map((val, index) => { */}
-
-//                 {/* return ( */}
-//                   <div   className=" box-border border-spacing-1 border-y-8 shadow-sm  border-x-8  w-6/12 h-[100px]">
-//                     <div   className={`cursor-pointer flex flex-row justify-between items-center`}>
-//                       <div>
-//                         <h1 className="text-4xl w-full"> </h1>
-//                       </div>
-//                     </div>
-//                   </div>
-//                 {/* ); */}
-
-//             </div>
-//           </div>
-//           <div className="h-fit bg-gray-300 flex flex-col items-center">
-//             {/* {quesIndex === mockQuestions.length - 1 ? ( */}
-//               <Link to="/home">
-//                 <div
-//                   // onClick={}
-//                   className=" px-3 my-10 mx-6 bg-gray-300 h-[90px] text-3xl font-bold cursor-pointer"
-//                 >
-//                   {"Submit"}
-//                 </div>
-//               </Link>
-//              {/* : ( */}
-//               <div
-//                 // onClick={}
-//                 className=" px-3 my-10 mx-6 bg-gray-300 h-[90px] text-3xl font-bold cursor-pointer"
-//               >
-//                 {"Continue"}
-//               </div>
-//             {/* ) */}
-//           </div>
-//         </>
-//       );
-// }

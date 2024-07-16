@@ -9,7 +9,7 @@ const watchlistSlice = createSlice({
       state.items.push(action.payload);
     },
     removeItem: (state, action) => {
-      state.items.push(action.payload);
+      state.items.splice(action.payload, 1);
     },
     clearItem: (state) => {
       state.items.length = 0;

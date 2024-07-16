@@ -11,7 +11,6 @@ export const InputBoxComponent = (style: textItems) => {
     <input
       value={style.passedText}
       onChange={(e) => {
-        console.log(e);
         style.stateValue(e.target.value);
       }}
       placeholder={style.placeholderText}

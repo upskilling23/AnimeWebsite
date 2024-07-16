@@ -15,7 +15,7 @@ const watchedSlice = createSlice({
       state.items.push(action.payload);
     },
     removedItem: (state, action) => {
-      state.items.push(action.payload);
+      state.items.splice(action.payload, 1);
     },
     clearedItem: (state) => {
       state.items.length = 0;

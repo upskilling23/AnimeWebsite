@@ -11,6 +11,7 @@ export interface Content {
   title: string;
   rating: number;
   count: string;
+  event?: any;
 }
 export interface ToggleContainer {
   toggleValue: boolean;
@@ -18,8 +19,8 @@ export interface ToggleContainer {
   decription: Content;
 }
 export const Accordion = (click: ToggleContainer) => {
-  const [toggle, setToggle] = useState(false);
-  const [closeModal, setCloseModal] = useState(false);
+  const [toggle, setToggle] = useState(false); // toggle state for opening and closing the toggle
+  const [closeModal, setCloseModal] = useState(false); // modal state for checking items already added to list
 
   const locateWatchListFromStore = useSelector(
     (store: RootState) => store.watchlist.items,
@@ -28,6 +29,7 @@ export const Accordion = (click: ToggleContainer) => {
     (store: RootState) => store.watched.items,
   );
 
+  // fetching values from redux store
   const dispatch = useDispatch();
   const checkWhetherItemIsAlreadyInList = (
     item: Content,
@@ -54,11 +56,8 @@ export const Accordion = (click: ToggleContainer) => {
   };
 
   return (
-    <div className="">
-      <div
-        onClick={clickAction}
-        className="cursor-pointer box-border border-spacing-1 border-y-8 shadow-lg border-x-8 h-[100px] w-9/12 ml-[10%] flex flex-row justify-between"
-      >
+    <div onClick={clickAction} className="cursor-pointer">
+      <div className="cursor-pointer box-border border-spacing-1 border-y-8 shadow-lg border-x-8 h-[100px] w-9/12 ml-[10%] flex flex-row justify-between">
         <h1 className="text-3xl pl-16 pt-2  items-center mb-[9%]">Items</h1>{" "}
         <span className="text-4xl justify-end pr-[3%]">⌄</span>
       </div>

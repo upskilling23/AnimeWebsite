@@ -10,7 +10,7 @@ export const ButtonComponent = (styles: Style) => {
     <button
       className={`${styles.styleValue}`}
       onClick={() => {
-        console.log(styles.event);
+        styles.event;
       }}
     >
       {styles.content}

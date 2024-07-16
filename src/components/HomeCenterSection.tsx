@@ -10,11 +10,13 @@ export const HomeCenterSection = () => {
       <div className="mt-[10%]">
         {mockData.map((value, index) => {
           return (
-            <Accordion
-              toggleValue={index === showindex ? true : false}
-              indexState={() => setshowindex(index)}
-              decription={value}
-            ></Accordion>
+            <div key={index}>
+              <Accordion
+                toggleValue={index === showindex ? true : false}
+                indexState={() => setshowindex(index)}
+                decription={value}
+              ></Accordion>
+            </div>
           );
         })}
       </div>

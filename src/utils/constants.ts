@@ -12,6 +12,7 @@ export enum ImageUrl {
   LoginImage = "https://japantour.xyz/wp-content/uploads/2019/11/15s-1140x641.png",
   BgImageLogin = "https://c4.wallpaperflare.com/wallpaper/469/818/500/kimi-no-na-wa-your-name-wallpaper-preview.jpg",
   DefaultPlaceholderImage = "https://img.freepik.com/premium-photo/image-file-icon-3d-render-illustration_567294-3412.jpg?w=996",
+  SurveyWelcomeScreen = "https://c4.wallpaperflare.com/wallpaper/460/119/714/anime-attack-on-titan-armin-arlert-eren-yeager-wallpaper-preview.jpg",
 }
 
 export const mockData: Content[] = [

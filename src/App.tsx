@@ -8,12 +8,22 @@ import { Home } from "./pages/HomePage";
 import { Footer } from "./components/Footer";
 import { HomeCenterSection } from "./components/HomeCenterSection";
 import { Survey } from "./pages/Survey";
+import { WatchList } from "./pages/WatchList";
+import { Provider } from "react-redux";
+import { appStore, persistor } from "./utils/appStore";
+import { StrictMode } from "react";
+import { SurveyWelcome } from "./pages/SurveyWelcome";
+import { PersistGate } from "redux-persist/integration/react";
 
 export const Applayout = () => {
   return (
-    <div id="app-comp">
-      <Outlet></Outlet>
-    </div>
+    <Provider store={appStore} children={undefined}>
+      <PersistGate persistor={persistor}>
+        <div id="app-comp">
+          <Outlet></Outlet>
+        </div>
+      </PersistGate>
+    </Provider>
   );
 };
 const appRouter = createBrowserRouter([
@@ -35,14 +45,30 @@ const appRouter = createBrowserRouter([
         path: "/survey",
         element: (
           <>
-            <Header statusOption={"loggedIn"}></Header>
-            <Survey></Survey>
+            <StrictMode>
+              <Header statusOption={"loggedIn"}></Header>
+              <Survey></Survey>
+            </StrictMode>
           </>
         ),
       },
       {
         path: "/login",
         element: <LoginPage></LoginPage>,
+      },
+      {
+        path: "/survey-welcome",
+        element: <SurveyWelcome></SurveyWelcome>,
+      },
+      {
+        path: "/watch-list",
+        element: (
+          <>
+            <Header statusOption={"loggedIn"}></Header>
+            <WatchList></WatchList>
+            <Footer></Footer>
+          </>
+        ),
       },
       {
         path: "/home",

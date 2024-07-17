@@ -2,7 +2,12 @@ import React from "react";
 import ReactDOM from "react-dom/client";
 import { Header } from "./pages/Header";
 import { CenterSection } from "./pages/CenterSection";
-import { createBrowserRouter, Outlet, RouterProvider } from "react-router-dom";
+import {
+  createBrowserRouter,
+  Outlet,
+  RouterProvider,
+  useParams,
+} from "react-router-dom";
 import { LoginPage } from "./pages/LoginPage";
 import { Home } from "./pages/HomePage";
 import { Footer } from "./components/Footer";
@@ -11,10 +16,10 @@ import { Survey } from "./pages/Survey";
 import { WatchList } from "./pages/WatchList";
 import { Provider } from "react-redux";
 import { appStore, persistor } from "./utils/appStore";
-import { StrictMode } from "react";
 import { SurveyWelcome } from "./pages/SurveyWelcome";
 import { PersistGate } from "redux-persist/integration/react";
 import { SignUpPage } from "./pages/SignUp";
+import { CardInfo } from "./pages/CardInfo";
 
 export const Applayout = () => {
   return (
@@ -46,10 +51,8 @@ const appRouter = createBrowserRouter([
         path: "/survey",
         element: (
           <>
-            <StrictMode>
-              <Header statusOption={"loggedIn"}></Header>
-              <Survey></Survey>
-            </StrictMode>
+            <Header statusOption={"loggedIn"}></Header>
+            <Survey></Survey>
           </>
         ),
       },
@@ -60,6 +63,16 @@ const appRouter = createBrowserRouter([
       {
         path: "/login",
         element: <LoginPage></LoginPage>,
+      },
+      {
+        path: "/home/:id",
+        element: (
+          <>
+            <Header statusOption={"loggedIn"}></Header>
+            <CardInfo></CardInfo>
+            <Footer></Footer>
+          </>
+        ),
       },
       {
         path: "/survey-welcome",

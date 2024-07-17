@@ -12,6 +12,8 @@ export interface Content {
   rating: number;
   count: string;
   event?: any;
+  id: string;
+  description?: string;
 }
 export interface ToggleContainer {
   toggleValue: boolean;
@@ -57,13 +59,13 @@ export const Accordion = (click: ToggleContainer) => {
 
   return (
     <div onClick={clickAction} className="cursor-pointer">
-      <div className="cursor-pointer box-border border-spacing-1 border-y-8 shadow-lg border-x-8 h-[100px] w-9/12 ml-[10%] flex flex-row justify-between">
+      <div className="cursor-pointer box-border border-spacing-1 border-y-2 shadow-lg border-x-2 h-[100px] w-9/12 ml-[10%] flex flex-row justify-between">
         <h1 className="text-3xl pl-16 pt-2  items-center mb-[9%]">Items</h1>{" "}
         <span className="text-4xl justify-end pr-[3%]">⌄</span>
       </div>
       <Modal open={closeModal} stateValue={setCloseModal}></Modal>
       {toggle && click.toggleValue && (
-        <div className="box-border border-spacing-1 border-y-8 shadow-lg border-x-8  w-9/12 ml-[10%] h-[230px]">
+        <div className="box-border border-spacing-1 border-y-2 shadow-lg border-x-2  w-9/12 ml-[10%] h-[230px]">
           <div className="flex flex-row justify-between">
             <div>
               <h1 className="text-xl font-bold pt-4 pl-16">

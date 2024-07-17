@@ -18,9 +18,16 @@ export enum ImageUrl {
 }
 
 export const mockData: Content[] = [
-  { title: "Attack on Titan", rating: 4.8, count: " Season 4" },
-  { title: "Naruto", rating: 4.7, count: " Season 21" },
-  { title: "One Piece", rating: 4.9, count: " Season 20" },
+  {
+    id: "100",
+    title: "Attack on Titan",
+    rating: 4.8,
+    count: " Season 4",
+    description:
+      "It is set in a world where humanity is forced to live in cities surrounded by three enormous walls that protect them from gigantic man-eating humanoids referred to as Titans; the story follows Eren Yeager, who vows to exterminate the Titans after they bring about the destruction of his hometown and the death of his mother.",
+  },
+  { id: "200", title: "Naruto", rating: 4.7, count: " Season 21" },
+  { id: "300", title: "One Piece", rating: 4.9, count: " Season 20" },
 ];
 
 export const mockQuestions: SurveyContent[] = [

@@ -19,7 +19,7 @@ export const Home = () => {
   }, []);
 
   return (
-    <div className="h-[800px] bg-gray-50">
+    <div className="h-[1000px] bg-gray-50">
       {showSurvey && (
         <div className="pt-[5%] bg-gray-50 ml-[40%]">
           <Link to="/survey-welcome">
@@ -40,11 +40,14 @@ export const Home = () => {
         {mockData.map((card, index) => {
           return (
             <div key={index}>
-              <AnimeCard
-                title={card.title}
-                count={card.count}
-                rating={card.rating}
-              ></AnimeCard>
+              <Link to={`/home/${card.id}`}>
+                <AnimeCard
+                  id={card.id}
+                  title={card.title}
+                  count={card.count}
+                  rating={card.rating}
+                ></AnimeCard>
+              </Link>
             </div>
           );
         })}

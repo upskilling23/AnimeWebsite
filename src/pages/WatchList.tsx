@@ -22,11 +22,14 @@ export const RemoveIcon = (cardValue: Content) => {
         >
           X
         </h1>
-        <AnimeCard
-          title={cardValue.title}
-          count={cardValue.count}
-          rating={cardValue.rating}
-        ></AnimeCard>
+        <Link to={`/home/${cardValue.id}`}>
+          <AnimeCard
+            title={cardValue.title}
+            count={cardValue.count}
+            rating={cardValue.rating}
+            id={cardValue.id}
+          ></AnimeCard>
+        </Link>
       </div>
     </>
   );
@@ -56,6 +59,7 @@ export const AddedValuesinWatchList = (
             return (
               <div key={index}>
                 <RemoveIcon
+                  id={cardValue.id}
                   event={() => {
                     WatchListContent.dispatch(removeItem(index));
                   }}
@@ -86,6 +90,7 @@ export const AddedValuesinWatchList = (
             return (
               <div key={index}>
                 <RemoveIcon
+                  id={cardValue.id}
                   event={() => {
                     WatchListContent.dispatch(removedItem(index));
                   }}

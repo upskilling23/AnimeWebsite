@@ -1,12 +1,13 @@
 import React, { useState, useEffect } from "react";
-import { ImageUrl } from "../utils/constants";
+import { ImageUrl, Stylings } from "../utils/constants";
 import { ButtonComponent } from "./ButtonComponent";
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { loggedin } from "../pages/Header";
 import { useSelector } from "react-redux";
 import { RootState } from "../utils/appStore";
 
 export const NavBar = (status: loggedin) => {
+  const getUrl: string = useParams().toString();
   const [statusValue, setStatusValue] = useState(false); //checking state of user whether logged in or not
   const locatorFromStoreForWatchListItems = useSelector(
     (store: RootState) => store.watchlist.items,
@@ -20,16 +21,23 @@ export const NavBar = (status: loggedin) => {
     }
   }, [status.statusOption]);
   return (
-    <div className="static h-[150px] bg-orange-100 box-border border-spacing-1 border-y-4">
+    <div
+      className={`static h-full bg-orange-100 box-border border-spacing-1 border-y-4`}
+    >
       <div className="comp flex justify-between">
         <div>
-          <img className="w-[140px] h-[140px]" src={ImageUrl.Logo}></img>
+          <img
+            className={`relative w-[100px] h-[100px]`}
+            src={ImageUrl.Logo}
+          ></img>
         </div>
         {statusValue ? (
           <>
             <div className="items-center pt-8">
               <Link to="/watch-list">
-                <h1 className="cursor-pointer text-4xl items-center">
+                <h1
+                  className={`cursor-pointer ${Stylings.TextWidth} items-center`}
+                >
                   WatchList{" "}
                   {locatorFromStoreForWatchListItems.length > 0 &&
                     (locatorFromStoreForWatchListItems.length > 1
@@ -38,7 +46,9 @@ export const NavBar = (status: loggedin) => {
                 </h1>
               </Link>
             </div>
-            <h1 className="text-4xl px-20 my-1 pt-8">Hi {""}</h1>
+            <h1 className={`${Stylings.TextWidth} pr-[2%] my-1 pt-8`}>
+              Hi {""}
+            </h1>
           </>
         ) : (
           <div className="py-9 my-auto">

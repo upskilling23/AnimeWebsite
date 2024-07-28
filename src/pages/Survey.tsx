@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { mockQuestions } from "../utils/constants";
+import { mockQuestions, Stylings } from "../utils/constants";
 import { useDispatch, useSelector } from "react-redux";
 import { addedSurveyItem } from "../utils/redux/answersSlice";
 import { RootState } from "../utils/appStore";
@@ -57,41 +57,41 @@ export const Survey = () => {
   };
 
   return (
-    <>
-      <div className="">
-        <div className="h-[160px] bg-gray-300 flex flex-row justify-self-start items-center">
+    <div className="relative w-full h-screen bg-gray-300">
+      <div>
+        <div className="h-fit grid grid-flow-col-dense items-center">
           {quesIndex > 0 && (
             <button
               onClick={BackClick}
-              className=" px-3 my-10 mx-6 bg-gray-400 h-[50px] text-2xl font-bold"
+              className={`px-3 my-10 mx-6 h-[50px] w-5/12 ${Stylings.TextWidth} font-bold hover:bg-gray-500`}
             >
               {" "}
               ⬅️ Back
             </button>
           )}
 
-          <h1 className="text-4xl">
+          <h1 className={`${Stylings.TextWidth}`}>
             {" "}
             {`${quesIndex + 1}. ${mockQuestions[quesIndex].question}`}
           </h1>
         </div>
       </div>
-      <div className="">
-        <div className="h-[400px] bg-gray-400 flex flex-col items-center ">
+      <div>
+        <div className="h-fit bg-gray-300 flex flex-col pl-[30%] overflow-auto">
           {mockQuestions[quesIndex].answer.map((val, index) => {
             return (
               <div
                 key={index}
-                className=" box-border border-spacing-1 border-y-8 shadow-sm  border-x-8  w-6/12 h-[100px]"
+                className=" box-border m-3 hover:border-blue-800 border-spacing-1 border-y-4 shadow-sm  border-x-4 w-6/12 h-[60px]"
               >
                 <div
                   onClick={() =>
                     handleAnswersClick(index, mockQuestions[quesIndex].id, val)
                   }
-                  className={`cursor-pointer ${index === ansIndex ? colour : ""} flex flex-row justify-between items-center`}
+                  className={`cursor-pointer ${index === ansIndex ? colour : ""} h-full flex flex-row justify-between items-center`}
                 >
                   <div>
-                    <h1 className="text-4xl w-full">{val} </h1>
+                    <h1 className={`${Stylings.TextWidth} w-full`}>{val} </h1>
                   </div>
                 </div>
               </div>
@@ -99,23 +99,14 @@ export const Survey = () => {
           })}
         </div>
       </div>
-      <div className="h-fit bg-gray-300 flex flex-col items-center">
-        {quesIndex === mockQuestions.length - 1 ? (
-          <div
-            onClick={handleClick}
-            className=" px-3 my-10 mx-6 bg-gray-300 h-[90px] text-3xl font-bold cursor-pointer"
-          >
-            {"Submit"}
-          </div>
-        ) : (
-          <div
-            onClick={handleClick}
-            className=" px-3 my-10 mx-6 bg-gray-300 h-[90px] text-3xl font-bold cursor-pointer"
-          >
-            {"Continue"}
-          </div>
-        )}
+      <div className="static w-full shadow-lg h-full bg-gray-300 flex flex-col items-center">
+        <div
+          onClick={handleClick}
+          className={`my-10 hover:bg-gray-100 items-center h-[30px] ${Stylings.TextWidth} font-bold cursor-pointer`}
+        >
+          {quesIndex === mockQuestions.length - 1 ? "Submit" : "Continue"}
+        </div>
       </div>
-    </>
+    </div>
   );
 };

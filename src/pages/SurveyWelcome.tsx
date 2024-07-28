@@ -1,7 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { ButtonComponent } from "../components/ButtonComponent";
-import { ImageUrl } from "../utils/constants";
+import { ImageUrl, Stylings } from "../utils/constants";
 
 export const SurveyWelcome = () => {
   return (
@@ -13,11 +13,13 @@ export const SurveyWelcome = () => {
       />
       <div className="absolute inset-0 flex items-center justify-center">
         <div className="bg-white bg-opacity-80 p-10 rounded-lg shadow-lg max-w-md w-full mx-4">
-          <h1 className="text-4xl font-bold italic pt-[2%]">Welcome to KYA</h1>
-          <h2 className="text-2xl pt-[4%]">
+          <h1 className={`${Stylings.TextWidth} font-bold italic pt-[2%]`}>
+            Welcome to SeriesHouse
+          </h1>
+          <h2 className={`${Stylings.TextWidth} pt-[4%]`}>
             Take this survey to know about yourself
           </h2>
-          <h2 className="text-2xl pt-[2%]">
+          <h2 className={`${Stylings.TextWidth} pt-[2%]`}>
             Your favorite anime will be listed
           </h2>
           <div className="pt-[10%]">
@@ -25,7 +27,7 @@ export const SurveyWelcome = () => {
               <ButtonComponent
                 event={""}
                 content="Get Started"
-                styleValue="px-6 py-3 bg-gray-400 h-12 text-xl font-bold rounded-md tex-wrap"
+                styleValue={`w-6/12 bg-gray-400 hover:bg-gray-50 ${Stylings.StyleInputBox} ${Stylings.TextWidth} font-bold rounded-md`}
               />
             </Link>
           </div>
@@ -34,7 +36,7 @@ export const SurveyWelcome = () => {
               <ButtonComponent
                 event={""}
                 content="Skip for now"
-                styleValue="px-6 py-3 bg-gray-400 h-12 text-xl font-bold rounded-md text-wrap"
+                styleValue={`w-6/12 bg-gray-400 hover:bg-gray-50 ${Stylings.StyleInputBox} ${Stylings.TextWidth} font-bold rounded-md`}
               />
             </Link>
           </div>

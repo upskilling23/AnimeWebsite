@@ -1,18 +1,20 @@
 import React, { useState } from "react";
 import { Accordion } from "./Accordion";
-import { mockData } from "../utils/constants";
+import { mockData, Stylings } from "../utils/constants";
 
 export const HomeCenterSection = () => {
   const [showindex, setShowindex] = useState(null);
 
   return (
-    <div className={`w-full h-[${mockData.length * 100 + 500}px]`}>
+    <div className={`w-full h-fit pt-[3%]`}>
       <div className="w-10/12 align-middle">
-        <h1 className="items-center  pl-[20%] pt-[1%] text-4xl text-center font-extrabold">
-          Add items to your watchlist
+        <h1
+          className={`items-center pl-[20%] pt-[1%] ${Stylings.TextWidth} text-center font-extrabold`}
+        >
+          Add items to your watchlist, top rated content in the world
         </h1>
       </div>
-      <div className="mt-[10%]">
+      <div className="mt-[3%]">
         {mockData.map((value, index) => {
           return (
             <div key={index}>
@@ -20,6 +22,7 @@ export const HomeCenterSection = () => {
                 toggleValue={index === showindex ? true : false}
                 indexState={() => setShowindex(index)}
                 decription={value}
+                title={value.contentHeader}
               ></Accordion>
             </div>
           );

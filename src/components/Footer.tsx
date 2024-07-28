@@ -1,10 +1,13 @@
 import React from "react";
+import { Stylings } from "../utils/constants";
 
 export const Footer = () => {
   return (
-    <div className="static h-[100px] bg-orange-100 box-border border-spacing-1 border-y-4 w-12/12 pl-[40%] pt-[30px] pb-[70px] align-middle">
-      <div className="items-center text-3xl">
-        <h1>For all anime Lovers 💗💗💗</h1>
+    <div className="static h-full bg-orange-100 box-border border-spacing-1 border-y-4 w-full pl-[30%] pt-[3%]">
+      <div
+        className={`text-wrap w-8/12 ${Stylings.TextWidth} font-bold  pb-[3%]`}
+      >
+        <h1>For all series and movie lovers 💗</h1>
       </div>
     </div>
   );

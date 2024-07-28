@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { ImageUrl, mockData } from "../utils/constants";
+import { ImageUrl, mockData, Stylings } from "../utils/constants";
 import { Link, useParams } from "react-router-dom";
 
 export const CardInfo = () => {
@@ -15,30 +15,42 @@ export const CardInfo = () => {
   return (
     filteredCard && (
       <div className="relative w-full h-screen bg-slate-50">
-        <div className="bg-slate-100 h-[12%]">
+        <div className="bg-slate-100 h-fit">
           <Link to="/home">
-            <button className="px-3 my-4 mx-6 bg-gray-400 h-[50px] text-2xl font-bold">
+            <button
+              className={`px-3 rounded-lg hover:bg-gray-100 bg-gray-400 text-wrap ${Stylings.TextWidth} h-fit font-bold`}
+            >
               {" "}
               ⬅️ Back
             </button>
           </Link>
         </div>
 
-        <div className="flex flex-col">
-          <div className=" my-12 mx-12 border border-spacing-0 border-x-2 border-y-2 border-black h-[10%] w-2/12">
+        <div className="flex flex-col pt-[5%] pl-[10%]">
+          <div className="border border-spacing-0 border-x-2 border-y-2 border-black h-fit w-2/12">
             <img
               className="w-fit h-fit"
               src={ImageUrl.DefaultPlaceholderImage}
             ></img>
           </div>
-          <div className="my-12 mx-12">
-            <h1 className="text-2xl font-bold">{filteredCard.title}</h1>
-            <h1 className="text-2xl font-bold">{filteredCard.rating}</h1>
-            <h1 className="text-2xl font-bold">{filteredCard.count}</h1>
+          <div className="h-full pt-[4%]">
+            {[filteredCard.title, filteredCard.rating, filteredCard.count].map(
+              (filteredCardValue, index) => {
+                return (
+                  <>
+                    <h1 className={`${Stylings.TextWidth} text-black pt-[1%]`}>
+                      {filteredCardValue}
+                    </h1>
+                  </>
+                );
+              },
+            )}
             {filteredCard.description && (
-              <p className=" text-wrap text-2xl font-bold overflow-auto">
-                {filteredCard.description}
-              </p>
+              <div className=" overflow-scroll">
+                <p className={`${Stylings.TextWidth} text-black`}>
+                  {filteredCard.description}
+                </p>
+              </div>
             )}
           </div>
         </div>

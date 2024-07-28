@@ -1,4 +1,5 @@
 import React from "react";
+import { Stylings } from "../utils/constants";
 
 interface ModalOpen {
   open: boolean;
@@ -14,19 +15,21 @@ export const Modal = ({ open, stateValue }: ModalOpen) => {
     open && (
       <div
         id="modal"
-        className="bg-slate-200 fixed inset-96 h-[350px] pt-4 pr-4 w-[800px] rounded-2xl"
+        className={`bg-slate-200 fixed inset-0 ${Stylings.AnimeCardWidth} ${Stylings.ModalHeight} pt-4 pr-4 rounded-2xl`}
       >
-        <div className="flex flex-col w-full">
+        <div className="flex flex-col justify-items-start w-full">
           <div className="flex flex-row justify-between">
-            <h1 className="text-5xl text-black pb-44">Unable to Add</h1>
+            <h1 className={`${Stylings.TextWidth} text-black font-bold`}>
+              Unable to Add
+            </h1>
             <h1 onClick={handleClick} className="cursor-pointer">
               ❌
             </h1>
           </div>
-          <div className="flex justify-center">
+          <div className="">
             <button
               onClick={handleClick}
-              className="cursor-pointer px-3 mx-6 bg-gray-400 w-2/12 h-12 text-4xl font-bold"
+              className={`cursor-pointer rounded-lg bg-gray-400 w-4/12 ${Stylings.StyleInputBox} ${Stylings.TextWidth} font-bold`}
             >
               Ok
             </button>

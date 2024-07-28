@@ -1,15 +1,8 @@
 import React, { useState } from "react";
-import { ImageUrl } from "../utils/constants";
+import { ImageUrl, InputBoxInterface } from "../utils/constants";
 import { ButtonComponent } from "../components/ButtonComponent";
 import { InputBoxComponent } from "../components/InputBoxComponent";
 import { Link } from "react-router-dom";
-
-interface InputBoxInterface {
-  state?: any;
-  passingText?: string;
-  placeHolder?: string;
-  DisplayValue?: string;
-}
 
 export const SignUpPage = () => {
   const [name, setName] = useState("");
@@ -62,7 +55,7 @@ export const SignUpPage = () => {
                   stateValue={inputValue.state}
                   passedText={inputValue.passingText ?? ""}
                   placeholderText={inputValue.placeHolder ?? ""}
-                  styleValue="border w-full h-12 border-black rounded-md px-4 py-1.5 text-gray-900 shadow-lg ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 xl:text-xl"
+                  styleValue="border w-full h-12 border-black rounded-md px-4 py-1.5 text-gray-900 shadow-lg ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600"
                 />
               </div>
             );

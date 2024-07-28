@@ -41,9 +41,7 @@ const appRouter = createBrowserRouter([
         path: "/",
         element: (
           <>
-            <Header statusOption={"logged"}></Header>
             <CenterSection></CenterSection>
-            <Footer></Footer>
           </>
         ),
       },

@@ -1,9 +1,12 @@
 import React, { useState } from "react";
 import { Accordion } from "./Accordion";
-import { mockData, Stylings } from "../utils/constants";
+import { Stylings } from "../utils/constants";
+import { useApiData } from "../hooks/useApiData";
+import { LoadingContainer } from "./LoadingContainer";
 
 export const HomeCenterSection = () => {
   const [showindex, setShowindex] = useState(null);
+  const fetchedApiData = useApiData();
 
   return (
     <div className={`w-full h-fit pt-[3%]`}>
@@ -15,18 +18,24 @@ export const HomeCenterSection = () => {
         </h1>
       </div>
       <div className="mt-[3%]">
-        {mockData.map((value, index) => {
-          return (
-            <div key={index}>
-              <Accordion
-                toggleValue={index === showindex ? true : false}
-                indexState={() => setShowindex(index)}
-                decription={value}
-                title={value.contentHeader}
-              ></Accordion>
-            </div>
-          );
-        })}
+        {fetchedApiData === null ? (
+          <LoadingContainer></LoadingContainer>
+        ) : (
+          fetchedApiData.tv
+            .filter((filterRating) => filterRating.meta.score > 8.5)
+            .map((value, index) => {
+              return (
+                <div key={index}>
+                  <Accordion
+                    toggleValue={index === showindex ? true : false}
+                    indexState={() => setShowindex(index)}
+                    decription={value}
+                    title={`Click to view`}
+                  ></Accordion>
+                </div>
+              );
+            })
+        )}
       </div>
     </div>
   );

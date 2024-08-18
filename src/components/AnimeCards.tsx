@@ -3,6 +3,7 @@ import { ImageUrl, Stylings } from "../utils/constants";
 import { Content } from "./Accordion";
 
 export const AnimeCard = (cardValue: Content) => {
+  
   return (
     <div>
       <div
@@ -10,18 +11,18 @@ export const AnimeCard = (cardValue: Content) => {
       >
         <img
           className="w-fit h-fit"
-          src={ImageUrl.DefaultPlaceholderImage}
+          src={cardValue.image ?? ImageUrl.DefaultPlaceholderImage}
         ></img>
         {[cardValue.title, cardValue.rating, cardValue.count].map(
           (value, index) => {
             return (
-              <h1
+              <div
                 key={index}
-                className={`font-extrabold text-wrap ${Stylings.TextWidth} text-blue-950 text-center pt-5 pb-3`}
+                className={`font-extrabold text-wrap ${Stylings.TextWidth} text-blue-950 text-center pt-2 pb-2`}
               >
                 {" "}
                 {index === 1 ? `⭐ ${value}` : value}
-              </h1>
+              </div>
             );
           },
         )}

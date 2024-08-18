@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { mockQuestions, Stylings } from "../utils/constants";
+import { mockQuestions, Stylings, SurveyContent } from "../utils/constants";
 import { useDispatch, useSelector } from "react-redux";
 import { addedSurveyItem } from "../utils/redux/answersSlice";
 import { RootState } from "../utils/appStore";
@@ -10,6 +10,7 @@ export const Survey = () => {
   const [ansIndex, setAnsIndex] = useState(null); // updating answer index
   const [selectAnswer, setSelectAnswer] = useState(false); // checking whether answer is selected and to update the colour of the div
   const colour = "bg-green-300";
+  const [indexArray, setIndexArray] = useState([]);
   const dispatch = useDispatch(); // for sending answers to redux store
   const navigate = useNavigate();
   const locateAnswersFromStore = useSelector(
@@ -27,84 +28,95 @@ export const Survey = () => {
   }, [locateAnswersFromStore.length, navigate]);
 
   // On clicking answer, answer index will be updated and bg colour will be updated
-  const handleAnswersClick = (index: number, id: number, val: string) => {
-    setAnsIndex(index);
-    if (index === ansIndex && quesIndex === id) {
-      setSelectAnswer(!selectAnswer);
-    } else {
-      setSelectAnswer(false);
+  // if question type is single, it selects only one, if multi it pushes in array
+  const handleAnswersClick = (
+    clickedAnswer: number,
+    questionModel: SurveyContent,
+    val: string,
+  ) => {
+    setAnsIndex(clickedAnswer);
+    setSelectAnswer(true);
+    if (questionModel.type === "multi") {
+      indexArray.push(clickedAnswer);
     }
   };
 
   // On submitting answer, answer index will be passed to redux store
-  const handleClick = () => {
-    const answer = window.localStorage.getItem(quesIndex.toString());
-    dispatch(addedSurveyItem(answer ?? ""));
+  const handleClick = (answerValue: string[]) => {
+    dispatch(addedSurveyItem(answerValue));
     if (quesIndex < mockQuestions.length - 1) {
       setQuesIndex(quesIndex + 1);
       setAnsIndex(null);
     } else {
       // Navigate to the home page
+
       navigate("/home");
     }
   };
 
-  // on clicking back, redirecting to previous question
-  const BackClick = () => {
-    if (quesIndex !== 0 && quesIndex <= mockQuestions.length - 1) {
-      setQuesIndex(quesIndex - 1);
-    }
-  };
-
   return (
-    <div className="relative w-full h-screen bg-gray-300">
-      <div>
-        <div className="h-fit grid grid-flow-col-dense items-center">
-          {quesIndex > 0 && (
-            <button
-              onClick={BackClick}
-              className={`px-3 my-10 mx-6 h-[50px] w-5/12 ${Stylings.TextWidth} font-bold hover:bg-gray-500`}
-            >
+    <div className="h-[350px] bg-gray-300">
+      <div className="relative w-full h-full bg-gray-300">
+        <div>
+          <div className="h-fit grid grid-flow-col-dense items-center">
+            <h1 className={`${Stylings.TextWidth}`}>
               {" "}
-              ⬅️ Back
-            </button>
-          )}
-
-          <h1 className={`${Stylings.TextWidth}`}>
-            {" "}
-            {`${quesIndex + 1}. ${mockQuestions[quesIndex].question}`}
-          </h1>
+              {`${quesIndex + 1}. ${mockQuestions[quesIndex].question}`}
+            </h1>
+          </div>
         </div>
-      </div>
-      <div>
-        <div className="h-fit bg-gray-300 flex flex-col pl-[30%] overflow-auto">
-          {mockQuestions[quesIndex].answer.map((val, index) => {
-            return (
-              <div
-                key={index}
-                className=" box-border m-3 hover:border-blue-800 border-spacing-1 border-y-4 shadow-sm  border-x-4 w-6/12 h-[60px]"
-              >
+        <div>
+          <div className="h-fit bg-gray-300 flex flex-col pl-[30%] overflow-auto pt-[5%]">
+            {mockQuestions[quesIndex].answer.map((val, answerIndexSelect) => {
+              return (
                 <div
-                  onClick={() =>
-                    handleAnswersClick(index, mockQuestions[quesIndex].id, val)
-                  }
-                  className={`cursor-pointer ${index === ansIndex ? colour : ""} h-full flex flex-row justify-between items-center`}
+                  key={answerIndexSelect}
+                  className=" box-border m-3 hover:border-blue-800 border-spacing-1 border-y-4 shadow-sm  border-x-4 w-6/12 h-[60px]"
                 >
-                  <div>
-                    <h1 className={`${Stylings.TextWidth} w-full`}>{val} </h1>
+                  <div
+                    onClick={() => {
+                      handleAnswersClick(
+                        answerIndexSelect,
+                        mockQuestions[quesIndex],
+                        val,
+                      );
+                    }}
+                    className={`cursor-pointer ${
+                      mockQuestions[quesIndex].type === "multi"
+                        ? indexArray.some((val) => val === answerIndexSelect)
+                          ? colour
+                          : ""
+                        : ansIndex === answerIndexSelect
+                          ? colour
+                          : ""
+                    } h-full flex flex-row justify-between items-center`}
+                  >
+                    <div>
+                      <h1 className={`${Stylings.TextWidth} w-full`}>{val} </h1>
+                    </div>
                   </div>
                 </div>
-              </div>
-            );
-          })}
+              );
+            })}
+          </div>
         </div>
-      </div>
-      <div className="static w-full shadow-lg h-full bg-gray-300 flex flex-col items-center">
-        <div
-          onClick={handleClick}
-          className={`my-10 hover:bg-gray-100 items-center h-[30px] ${Stylings.TextWidth} font-bold cursor-pointer`}
-        >
-          {quesIndex === mockQuestions.length - 1 ? "Submit" : "Continue"}
+        <div className="static w-full shadow-lg h-full bg-gray-300 flex flex-col items-center">
+          {ansIndex !== null && (
+            <div
+              onClick={() =>
+                handleClick(
+                  mockQuestions[quesIndex].type === "multi"
+                    ? indexArray.map(
+                        (val) => mockQuestions[quesIndex].answer[val],
+                      )
+                    : mockQuestions[quesIndex].answer[ansIndex],
+                )
+              }
+              className={`my-10 hover:bg-gray-100 items-center h-[30px] ${Stylings.TextWidth} font-bold cursor-pointer`}
+            >
+              {quesIndex === mockQuestions.length - 1 ? "Submit" : "Continue"}
+            </div>
+          )}
         </div>
       </div>
     </div>

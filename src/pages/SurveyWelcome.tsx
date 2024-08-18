@@ -1,9 +1,24 @@
-import React from "react";
-import { Link } from "react-router-dom";
+import React, { useEffect } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import { ButtonComponent } from "../components/ButtonComponent";
 import { ImageUrl, Stylings } from "../utils/constants";
+import { useSelector } from "react-redux";
+import { RootState } from "../utils/appStore";
 
 export const SurveyWelcome = () => {
+  const navigate = useNavigate();
+  const locateAnswersFromStore = useSelector(
+    (store: RootState) => store.surveyAnswers.items,
+  );
+
+  useEffect(() => {
+    if (locateAnswersFromStore.length !== 0) {
+      navigate("/home");
+    } else {
+      navigate("/survey-welcome");
+    }
+  }, [locateAnswersFromStore.length, navigate]);
+
   return (
     <div className="relative w-full h-screen">
       <img

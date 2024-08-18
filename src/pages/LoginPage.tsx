@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { ImageUrl, InputBoxInterface, Stylings } from "../utils/constants";
 import { ButtonComponent } from "../components/ButtonComponent";
 import { InputBoxComponent } from "../components/InputBoxComponent";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 export const LoginPage = () => {
   const [name, setName] = useState("");
@@ -35,8 +35,8 @@ export const LoginPage = () => {
     {
       state: setPhone,
       passingText: phone,
-      placeHolder: "Enter your Age",
-      DisplayValue: "Age",
+      placeHolder: "Enter your Full Name",
+      DisplayValue: "Full Name",
     },
   ];
 

@@ -18,7 +18,6 @@ import { Provider } from "react-redux";
 import { appStore, persistor } from "./utils/appStore";
 import { SurveyWelcome } from "./pages/SurveyWelcome";
 import { PersistGate } from "redux-persist/integration/react";
-import { SignUpPage } from "./pages/SignUp";
 import { CardInfo } from "./pages/CardInfo";
 
 export const Applayout = () => {
@@ -53,10 +52,6 @@ const appRouter = createBrowserRouter([
             <Survey></Survey>
           </>
         ),
-      },
-      {
-        path: "/sign-up",
-        element: <SignUpPage></SignUpPage>,
       },
       {
         path: "/login",

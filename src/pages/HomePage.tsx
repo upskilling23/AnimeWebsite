@@ -1,22 +1,43 @@
 import React, { useState, useEffect } from "react";
 import { AnimeCard } from "../components/AnimeCards";
-import { mockData, Stylings } from "../utils/constants";
+import { ImageUrl, Stylings } from "../utils/constants";
 import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { RootState } from "../utils/appStore";
+import { LoadingContainer } from "../components/LoadingContainer";
+import { useApiData } from "../hooks/useApiData";
 
 export const Home = () => {
   const [showSurvey, setShowSurvey] = useState(false);
+  const fetchedApiData = useApiData();
+
+  const [updateValue, setUpdateValue] = useState(fetchedApiData);
   // redirecting to home if survey is completed
   const locateAnswersFromStore = useSelector(
     (store: RootState) => store.surveyAnswers.items,
   );
-  // fetching answers from redux store to check user completedd the survey or not
+
+  // fetching answers from redux store to check user completed the survey or not
   useEffect(() => {
     if (locateAnswersFromStore.length === 0) {
       setShowSurvey(true);
     }
   }, []);
+
+  // useEffect(()=>
+  // {
+  //   if(!showSurvey && fetchedApiData)
+  //   {
+  //     const filterData=setUpdateValue(fetchedApiData.tv.filter((val) =>
+  //       val.genre.some((val1) =>
+  //         locateAnswersFromStore[2].some((val2) =>
+  //           val2.includes(val1.name)
+  //         )
+  //       )
+  //     ))
+  //     setUpdateValue(filterData)
+  //   }
+  // },[showSurvey, fetchedApiData, locateAnswersFromStore])
 
   return (
     <div className="relative w-full h-fit bg-gray-50">
@@ -39,20 +60,27 @@ export const Home = () => {
         </h1>
       </div>
       <div className="w-full h-fit pt-[2%] flex flex-row overflow-auto">
-        {mockData.map((card, index) => {
-          return (
+        {fetchedApiData !== null ? (
+          fetchedApiData.tv.map((card, index) => (
             <div key={index}>
               <Link to={`/home/${card.id}`}>
                 <AnimeCard
                   id={card.id}
                   title={card.title}
-                  count={card.count}
-                  rating={card.rating}
-                ></AnimeCard>
+                  count={
+                    ["??", ""].includes(card.meta.episodes)
+                      ? card.latest_episode.metadata.number
+                      : card.meta.episodes
+                  }
+                  rating={card.meta.score}
+                  image={`${ImageUrl.ImageConactUrl}${card.image}`}
+                />
               </Link>
             </div>
-          );
-        })}
+          ))
+        ) : (
+          <LoadingContainer />
+        )}
       </div>
     </div>
   );

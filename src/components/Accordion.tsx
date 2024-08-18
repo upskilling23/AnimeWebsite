@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { ImageUrl, Stylings } from "../utils/constants";
 import { useDispatch, useSelector } from "react-redux";
 import { addItem } from "../utils/redux/watchlistSlice";
@@ -16,11 +16,12 @@ export interface Content {
   id: string;
   description?: string;
   contentHeader?: string;
+  image?: string;
 }
 export interface ToggleContainer {
   toggleValue: boolean;
   indexState: any;
-  decription: Content;
+  decription: any;
   title?: string;
 }
 export const Accordion = (click: ToggleContainer) => {
@@ -82,8 +83,12 @@ export const Accordion = (click: ToggleContainer) => {
                 <div>
                   {[
                     click.decription.title,
-                    click.decription.count,
-                    click.decription.rating,
+                    ["??", ""].some((value) =>
+                      value.includes(click.decription.meta.episodes),
+                    )
+                      ? click.decription.latest_episode.metadata.number
+                      : click.decription.meta.episodes,
+                    click.decription.meta.score,
                   ].map((accordionValue, index) => {
                     return (
                       <h1
@@ -121,7 +126,7 @@ export const Accordion = (click: ToggleContainer) => {
             </div>
             <img
               className={`w-4/12 min-h-fit`}
-              src={ImageUrl.DefaultPlaceholderImage}
+              src={`${ImageUrl.ImageConactUrl}` + click.decription.image}
             ></img>
           </div>
         </div>

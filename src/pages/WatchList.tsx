@@ -70,7 +70,7 @@ export const AddedValuesinWatchList = (
         },
       ].map((watchListPageValues, index) => {
         return (
-          <>
+          <div  key={index}>
             <h1
               className={`h-[3%] w-full bg-slate-50 pt-[5%] pb-[5%] ${Stylings.TextWidth} font-bold text-wrap`}
             >
@@ -101,7 +101,7 @@ export const AddedValuesinWatchList = (
                 )}
               </div>
             </div>
-          </>
+          </div>
         );
       })}
     </>
@@ -141,7 +141,7 @@ export const WatchList = () => {
           },
         ].map((buttonComponent, index) => {
           return (
-            <div className="h-fit">
+            <div className="h-fit"  key={index}>
               <ButtonComponent
                 dispatch={true}
                 event={buttonComponent.event}

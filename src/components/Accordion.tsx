@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { ImageUrl, Stylings } from "../utils/constants";
+import { ImageUrl, Movie, Stylings } from "../utils/constants";
 import { useDispatch, useSelector } from "react-redux";
 import { addItem } from "../utils/redux/watchlistSlice";
 import { addedItem, CartState } from "../utils/redux/watchedSlice";
@@ -10,18 +10,19 @@ import { useMobile } from "../hooks/useMobile";
 
 export interface Content {
   title: string;
-  rating: number;
+  rating: string;
   count: string;
   event?: any;
   id: string;
   description?: string;
   contentHeader?: string;
   image?: string;
+  apiValues?: Movie;
 }
 export interface ToggleContainer {
   toggleValue: boolean;
   indexState: any;
-  decription: any;
+  decription: Movie;
   title?: string;
 }
 export const Accordion = (click: ToggleContainer) => {
@@ -39,7 +40,7 @@ export const Accordion = (click: ToggleContainer) => {
   // fetching values from redux store
   const dispatch = useDispatch();
   const checkWhetherItemIsAlreadyInList = (
-    item: Content,
+    item: Movie,
     dispatchItem: PayloadAction<any, any>,
   ) => {
     if (
@@ -51,10 +52,10 @@ export const Accordion = (click: ToggleContainer) => {
       dispatch(dispatchItem);
     }
   };
-  const addToWatchList = (item: Content) => {
+  const addToWatchList = (item: Movie) => {
     checkWhetherItemIsAlreadyInList(item, addItem(item));
   };
-  const addToWatchedList = (item: Content) => {
+  const addToWatchedList = (item: Movie) => {
     checkWhetherItemIsAlreadyInList(item, addedItem(item));
   };
   const clickAction = () => {

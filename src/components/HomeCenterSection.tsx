@@ -6,7 +6,7 @@ import { LoadingContainer } from "./LoadingContainer";
 
 export const HomeCenterSection = () => {
   const [showindex, setShowindex] = useState(null);
-  const fetchedApiData = useApiData();
+  const { data: fetchedApiData, error, isLoading } = useApiData();
 
   return (
     <div className={`w-full h-fit pt-[3%]`}>
@@ -18,9 +18,9 @@ export const HomeCenterSection = () => {
         </h1>
       </div>
       <div className="mt-[3%]">
-        {fetchedApiData === null ? (
-          <LoadingContainer></LoadingContainer>
-        ) : (
+        {isLoading ? (
+          <LoadingContainer />
+        ) : fetchedApiData && fetchedApiData.tv ? (
           fetchedApiData.tv
             .filter((filterRating) => filterRating.meta.score > 8.5)
             .map((value, index) => {
@@ -35,6 +35,8 @@ export const HomeCenterSection = () => {
                 </div>
               );
             })
+        ) : (
+          <div>No data available</div>
         )}
       </div>
     </div>

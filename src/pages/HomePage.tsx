@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { AnimeCard } from "../components/AnimeCards";
-import { ImageUrl, Stylings } from "../utils/constants";
+import { ImageUrl, Movie, Stylings } from "../utils/constants";
 import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { RootState } from "../utils/appStore";
@@ -9,9 +9,9 @@ import { useApiData } from "../hooks/useApiData";
 
 export const Home = () => {
   const [showSurvey, setShowSurvey] = useState(false);
-  const fetchedApiData = useApiData();
+  const { data: fetchedApiData, error, isLoading } = useApiData();
 
-  const [updateValue, setUpdateValue] = useState(fetchedApiData);
+  const [updateValue, setUpdateValue] = useState(null);
   // redirecting to home if survey is completed
   const locateAnswersFromStore = useSelector(
     (store: RootState) => store.surveyAnswers.items,
@@ -23,22 +23,33 @@ export const Home = () => {
       setShowSurvey(true);
     }
   }, []);
+  useEffect(() => {
+    if (locateAnswersFromStore.length === 4 && fetchedApiData) {
+      return setUpdateValue(
+        locateAnswersFromStore[3] === "Anime"
+          ? fetchedApiData.tv.filter((val) =>
+              val.genre.some((val1) =>
+                locateAnswersFromStore[2].some((val2) =>
+                  val2.includes(val1.name),
+                ),
+              ),
+            )
+          : fetchedApiData.movies.filter((val) =>
+              val.genre.some((val1) =>
+                locateAnswersFromStore[2].some((val2) =>
+                  val2.includes(val1.name),
+                ),
+              ),
+            ),
+      );
+    } else if (fetchedApiData) {
+      return setUpdateValue(fetchedApiData.tv);
+    }
+  }, [fetchedApiData, locateAnswersFromStore]);
 
-  // useEffect(()=>
-  // {
-  //   if(!showSurvey && fetchedApiData)
-  //   {
-  //     const filterData=setUpdateValue(fetchedApiData.tv.filter((val) =>
-  //       val.genre.some((val1) =>
-  //         locateAnswersFromStore[2].some((val2) =>
-  //           val2.includes(val1.name)
-  //         )
-  //       )
-  //     ))
-  //     setUpdateValue(filterData)
-  //   }
-  // },[showSurvey, fetchedApiData, locateAnswersFromStore])
-
+  if (updateValue === null) {
+    return <LoadingContainer></LoadingContainer>;
+  }
   return (
     <div className="relative w-full h-fit bg-gray-50">
       {showSurvey && (
@@ -60,17 +71,19 @@ export const Home = () => {
         </h1>
       </div>
       <div className="w-full h-fit pt-[2%] flex flex-row overflow-auto">
-        {fetchedApiData !== null ? (
-          fetchedApiData.tv.map((card, index) => (
+        {isLoading ? (
+          <LoadingContainer />
+        ) : updateValue ? (
+          updateValue.map((card: Movie, index) => (
             <div key={index}>
               <Link to={`/home/${card.id}`}>
                 <AnimeCard
-                  id={card.id}
+                  id={card.id.toString()}
                   title={card.title}
                   count={
                     ["??", ""].includes(card.meta.episodes)
-                      ? card.latest_episode.metadata.number
-                      : card.meta.episodes
+                      ? card.latest_episode.metadata.number.toString()
+                      : card.meta.episodes.toString()
                   }
                   rating={card.meta.score}
                   image={`${ImageUrl.ImageConactUrl}${card.image}`}
@@ -79,7 +92,7 @@ export const Home = () => {
             </div>
           ))
         ) : (
-          <LoadingContainer />
+          <div>No data available</div>
         )}
       </div>
     </div>

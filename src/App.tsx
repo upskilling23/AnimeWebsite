@@ -19,16 +19,20 @@ import { appStore, persistor } from "./utils/appStore";
 import { SurveyWelcome } from "./pages/SurveyWelcome";
 import { PersistGate } from "redux-persist/integration/react";
 import { CardInfo } from "./pages/CardInfo";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 
 export const Applayout = () => {
+  const queryClient = new QueryClient();
   return (
-    <Provider store={appStore} children={undefined}>
-      <PersistGate persistor={persistor}>
-        <div id="app-comp">
-          <Outlet></Outlet>
-        </div>
-      </PersistGate>
-    </Provider>
+    <QueryClientProvider client={queryClient}>
+      <Provider store={appStore} children={undefined}>
+        <PersistGate persistor={persistor}>
+          <div id="app-comp">
+            <Outlet></Outlet>
+          </div>
+        </PersistGate>
+      </Provider>
+    </QueryClientProvider>
   );
 };
 const appRouter = createBrowserRouter([

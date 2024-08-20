@@ -22,7 +22,98 @@ export interface SurveyContent {
   type: string;
   id: number;
 }
-export const AnimeAPI = "https://anime-world.in/wp-json/kiranime/v1/anime/homepage";
+export interface AnimeApiResponse {
+  movies: Movie[];
+  tv: Movie[];
+}
+
+export interface Movie {
+  image: string;
+  title: string;
+  link: string;
+  meta: Meta;
+  attr: Attr[];
+  lang: Attr[];
+  status: Attr[];
+  genre: Attr[];
+  latest_episode: TvLatestEpisode;
+  tooltip: boolean;
+  content: string;
+  id: number;
+}
+
+export interface Attr {
+  term_id: number;
+  name: string;
+  slug: string;
+  term_group: number;
+  term_taxonomy_id: number;
+  taxonomy: Taxonomy;
+  description: string;
+  parent: number;
+  count: number;
+  filter: Filter;
+}
+
+export enum Filter {
+  Raw = "raw",
+}
+
+export enum Taxonomy {
+  AnimeAttribute = "anime_attribute",
+  Genre = "genre",
+  Licensor = "licensor",
+  Producer = "producer",
+  Status = "status",
+  Studio = "studio",
+  SupportedLanguage = "supported_language",
+}
+
+export interface Meta {
+  spotlight: string;
+  rate: Rate;
+  native: string;
+  synonyms: string;
+  aired: string;
+  premiered: Premiered;
+  duration: string;
+  episodes: string;
+  score: string;
+  background: string;
+  featured: string;
+  updated: string;
+  download: any[];
+  supported_language: string;
+  producer: Attr[];
+  studio: Attr[];
+  licensor: Attr[];
+  genre: Attr[];
+}
+
+export enum Premiered {
+  Empty = "",
+  Summer2024 = "summer 2024",
+}
+
+export enum Rate {
+  Empty = "",
+  Tv14 = "TV-14",
+  TvG = "TV-G",
+  TvMa = "TV-MA",
+  TvPG = "TV-PG",
+  TvY7 = "TV-Y7",
+}
+
+export interface TvLatestEpisode {
+  metadata: FluffyMetadata;
+}
+
+export interface FluffyMetadata {
+  number: number;
+}
+
+export const AnimeAPI =
+  "https://anime-world.in/wp-json/kiranime/v1/anime/homepage";
 
 export enum ImageUrl {
   ImageConactUrl = "https://anime-world.in/",
@@ -44,13 +135,13 @@ export const mockQuestions: SurveyContent[] = [
     id: 0,
   },
   {
-    question: "At what age you started watching anime?",
-    answer: ["School", "College", "Office", "Not Interested in Anime"],
+    question: "At what age you started watching movies or anime?",
+    answer: ["School", "College", "Office", "Not Interested"],
     type: "single",
     id: 1,
   },
   {
-    question: "Which genre of anime do you prefer?",
+    question: "Which genre do you prefer?",
     answer: [
       "Mystery",
       "Romance",
@@ -64,5 +155,11 @@ export const mockQuestions: SurveyContent[] = [
     ],
     type: "multi",
     id: 2,
+  },
+  {
+    question: "What is your favorite content",
+    answer: ["Movies", "Anime"],
+    type: "single",
+    id: 3,
   },
 ];

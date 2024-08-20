@@ -1,15 +1,19 @@
-import { useState, useEffect } from "react";
-import { AnimeAPI } from "../utils/constants";
+import { useQuery } from "@tanstack/react-query";
+import { AnimeAPI, AnimeApiResponse, Movie } from "../utils/constants";
+
+const fetchAnimeData = async () => {
+  const response = await fetch(AnimeAPI);
+  if (!response.ok) {
+    throw new Error("Network response was not ok");
+  }
+  return await response.json();
+};
 
 export const useApiData = () => {
-  const [apiData, setApiData] = useState(null);
-  useEffect(() => {
-    fetchData();
-  }, []);
-  const fetchData = async () => {
-    const data = await fetch(AnimeAPI);
-    const json = await data.json();
-    setApiData(json);
-  };
-  return apiData;
+  return useQuery({
+    queryKey: ["fetchedApiData"],
+    queryFn: fetchAnimeData,
+    staleTime: 5 * 60 * 1000,
+    refetchOnWindowFocus: false,
+  });
 };

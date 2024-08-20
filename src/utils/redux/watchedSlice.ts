@@ -1,8 +1,8 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { Content } from "../../components/Accordion";
+import { Movie } from "../constants";
 
 export interface CartState {
-  items: Content[];
+  items: Movie[];
 }
 export const initialState: CartState = {
   items: [],

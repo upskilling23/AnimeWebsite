@@ -1,18 +1,14 @@
 import React from "react";
-import { ImageUrl, Stylings } from "../utils/constants";
+import { ImageUrl, Movie, Stylings } from "../utils/constants";
 import { Content } from "./Accordion";
 
 export const AnimeCard = (cardValue: Content) => {
-  
   return (
     <div>
       <div
         className={`border ${Stylings.AnimeCardWidth} ${Stylings.AnimeCardHeight} border-blue-950 mr-[40px] cursor-pointer`}
       >
-        <img
-          className="w-fit h-fit"
-          src={cardValue.image ?? ImageUrl.DefaultPlaceholderImage}
-        ></img>
+        <img className="w-fit h-fit" src={cardValue.image}></img>
         {[cardValue.title, cardValue.rating, cardValue.count].map(
           (value, index) => {
             return (

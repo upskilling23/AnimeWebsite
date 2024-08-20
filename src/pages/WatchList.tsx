@@ -9,7 +9,7 @@ import { clearItem, removeItem } from "../utils/redux/watchlistSlice";
 import { clearedItem, removedItem } from "../utils/redux/watchedSlice";
 import { clearSurvey } from "../utils/redux/answersSlice";
 import { EmptyList } from "../components/EmptyList";
-import { Stylings } from "../utils/constants";
+import { ImageUrl, Movie, Stylings } from "../utils/constants";
 
 export const RemoveIcon = (cardValue: Content) => {
   return (
@@ -20,7 +20,7 @@ export const RemoveIcon = (cardValue: Content) => {
             onClick={() => {
               cardValue.event();
             }}
-            className="cursor-pointer absolute border border-spacing-1 h-fit w-1/12 text-red-900"
+            className=" bg-slate-50 hover:bg-slate-500 cursor-pointer absolute border border-spacing-1 h-fit w-1/12 text-red-900"
           >
             X
           </h1>
@@ -30,6 +30,7 @@ export const RemoveIcon = (cardValue: Content) => {
               count={cardValue.count}
               rating={cardValue.rating}
               id={cardValue.id}
+              image={cardValue.image}
             ></AnimeCard>
           </Link>
         </div>
@@ -70,7 +71,7 @@ export const AddedValuesinWatchList = (
         },
       ].map((watchListPageValues, index) => {
         return (
-          <div  key={index}>
+          <div key={index}>
             <h1
               className={`h-[3%] w-full bg-slate-50 pt-[5%] pb-[5%] ${Stylings.TextWidth} font-bold text-wrap`}
             >
@@ -84,21 +85,24 @@ export const AddedValuesinWatchList = (
                 styleValue={`px-3 my-10 mx-6 rounded-lg hover:bg-gray-100 bg-gray-400 text-wrap ${Stylings.TextWidth} h-fit font-bold`}
               ></ButtonComponent>
               <div className="w-full h-fit flex flex-row overflow-auto">
-                {watchListPageValues.storeItem.map(
-                  (cardValue: Content, index) => {
-                    return (
-                      <div key={index}>
-                        <RemoveIcon
-                          id={cardValue.id}
-                          event={watchListPageValues.removeEvent}
-                          title={cardValue.title}
-                          count={cardValue.count}
-                          rating={cardValue.rating}
-                        ></RemoveIcon>
-                      </div>
-                    );
-                  },
-                )}
+                {watchListPageValues.storeItem.map((cardValue, index) => {
+                  return (
+                    <div key={index}>
+                      <RemoveIcon
+                        id={cardValue.id.toString()}
+                        event={watchListPageValues.removeEvent}
+                        title={cardValue.title}
+                        count={
+                          ["??", ""].includes(cardValue.meta.episodes)
+                            ? cardValue.latest_episode.metadata.number.toString()
+                            : cardValue.meta.episodes.toString()
+                        }
+                        rating={cardValue.meta.score.toString()}
+                        image={`${ImageUrl.ImageConactUrl}${cardValue.image}`}
+                      ></RemoveIcon>
+                    </div>
+                  );
+                })}
               </div>
             </div>
           </div>
@@ -109,8 +113,8 @@ export const AddedValuesinWatchList = (
 };
 interface WatchListInterface {
   dispatch: any;
-  locateWatchListFromStore: Content[];
-  locateWatchedFromStore: Content[];
+  locateWatchListFromStore: Movie[];
+  locateWatchedFromStore: Movie[];
 }
 export const WatchList = () => {
   const navigate = useNavigate();
@@ -137,11 +141,12 @@ export const WatchList = () => {
             title: "Clear Survey",
             event: () => {
               dispatch(clearSurvey());
+              navigate("/home");
             },
           },
         ].map((buttonComponent, index) => {
           return (
-            <div className="h-fit"  key={index}>
+            <div className="h-fit" key={index}>
               <ButtonComponent
                 dispatch={true}
                 event={buttonComponent.event}

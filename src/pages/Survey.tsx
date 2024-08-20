@@ -20,7 +20,7 @@ export const Survey = () => {
   // fetching answers from redux store
 
   useEffect(() => {
-    if (locateAnswersFromStore.length === 3) {
+    if (locateAnswersFromStore.length === 4) {
       navigate("/home");
     } else {
       navigate("/survey");

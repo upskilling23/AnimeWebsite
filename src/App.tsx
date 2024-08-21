@@ -27,7 +27,7 @@ export const Applayout = () => {
     <QueryClientProvider client={queryClient}>
       <Provider store={appStore} children={undefined}>
         <PersistGate persistor={persistor}>
-          <div id="app-comp">
+          <div role="main" id="app-comp">
             <Outlet></Outlet>
           </div>
         </PersistGate>

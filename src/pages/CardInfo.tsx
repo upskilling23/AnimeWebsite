@@ -1,6 +1,6 @@
 import React from "react";
 import { ImageUrl, Stylings } from "../utils/constants";
-import { Link, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import { useApiData } from "../hooks/useApiData";
 import { LoadingPage } from "../components/LoadingContainer";
 import { useSelector } from "react-redux";
@@ -12,24 +12,28 @@ export const CardInfo = () => {
   const locateAnswersFromStore = useSelector(
     (store: RootState) => store.surveyAnswers.items,
   );
+  const navigate = useNavigate();
   const fetchedData =
-    locateAnswersFromStore[3] === "Anime"
+    locateAnswersFromStore.length === 0
       ? fetchedApiData.tv
-      : fetchedApiData.movies;
+      : locateAnswersFromStore[3] === "Anime"
+        ? fetchedApiData.tv
+        : fetchedApiData.movies;
   return isLoading ? (
     <LoadingPage></LoadingPage>
   ) : (
     <>
-      <div className="relative w-full h-screen bg-slate-50">
+      <div className="relative w-full h-fit bg-slate-50">
         <div className="bg-slate-100 h-fit">
-          <Link to="/home">
-            <button
-              className={`px-3 rounded-lg hover:bg-gray-100 bg-gray-400 text-wrap ${Stylings.TextWidth} h-fit font-bold`}
-            >
-              {" "}
-              ⬅️ Back
-            </button>
-          </Link>
+          <button
+            onClick={() => {
+              navigate("/home");
+            }}
+            className={`px-3 rounded-lg hover:bg-gray-100 bg-gray-400 text-wrap ${Stylings.TextWidth} h-fit font-bold`}
+          >
+            {" "}
+            ⬅️ Back
+          </button>
         </div>
 
         <div className="flex flex-col pt-[5%] pl-[10%]">

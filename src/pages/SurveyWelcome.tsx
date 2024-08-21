@@ -34,27 +34,26 @@ export const SurveyWelcome = () => {
           <h2 className={`${Stylings.TextWidth} pt-[4%]`}>
             Take this survey to know about yourself
           </h2>
-          <h2 className={`${Stylings.TextWidth} pt-[2%]`}>
+          <h3 className={`${Stylings.TextWidth} pt-[2%]`}>
             Your favorite anime will be listed
-          </h2>
-          <div className="pt-[10%]">
-            <Link to="/survey">
-              <ButtonComponent
-                event={""}
-                content="Get Started"
-                styleValue={`w-6/12 bg-gray-400 hover:bg-gray-50 ${Stylings.StyleInputBox} ${Stylings.TextWidth} font-bold rounded-md`}
-              />
-            </Link>
-          </div>
-          <div className="pt-[10%]">
-            <Link to="/home">
-              <ButtonComponent
-                event={""}
-                content="Skip for now"
-                styleValue={`w-6/12 bg-gray-400 hover:bg-gray-50 ${Stylings.StyleInputBox} ${Stylings.TextWidth} font-bold rounded-md`}
-              />
-            </Link>
-          </div>
+          </h3>
+          {[
+            { navigateLink: "/survey", content: "Get Started" },
+            { navigateLink: "/home", content: "Skip for now" },
+          ].map((welcomeScreenButton, index) => {
+            return (
+              <div className="pt-[10%]" key={index}>
+                <ButtonComponent
+                  dispatch={true}
+                  event={() => {
+                    navigate(welcomeScreenButton.navigateLink);
+                  }}
+                  content={welcomeScreenButton.content}
+                  styleValue={`w-6/12 bg-gray-400 hover:bg-gray-50 ${Stylings.StyleInputBox} ${Stylings.TextWidth} font-bold rounded-md`}
+                />
+              </div>
+            );
+          })}
         </div>
       </div>
     </div>

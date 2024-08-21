@@ -16,14 +16,17 @@ export const RemoveIcon = (cardValue: Content) => {
     <>
       <div className="">
         <div className="relative">
-          <h1
+          <div
+            role="button"
+            tabIndex="0"
+            type="button"
             onClick={() => {
               cardValue.event();
             }}
             className=" bg-slate-50 hover:bg-slate-500 cursor-pointer absolute border border-spacing-1 h-fit w-1/12 text-red-900"
           >
             X
-          </h1>
+          </div>
           <Link to={`/home/${cardValue.id}`}>
             <AnimeCard
               title={cardValue.title}

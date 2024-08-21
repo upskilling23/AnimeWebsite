@@ -117,7 +117,7 @@ export const AnimeAPI =
 
 export enum ImageUrl {
   ImageConactUrl = "https://anime-world.in/",
-  BgImage = `https://img.freepik.com/free-photo/japan-background-digital-art_23-2151546164.jpg?t=st=1723975648~exp=1723979248~hmac=5c27d5b132ebcebe3ae637a6b04eeafae6d75f215079b2fb48c17d320ec4d3fa&w=4000`,
+  BgImage = `https://wallpapercave.com/wp/wp5891612.jpg`,
   Logo = `https://toppng.com/uploads/preview/cool-anime-logo-designs-cool-anime-logos-11569048807nxxriulgp2.png`,
   LoginImage = "https://japantour.xyz/wp-content/uploads/2019/11/15s-1140x641.png",
   BgImageLogin = "https://c4.wallpaperflare.com/wallpaper/469/818/500/kimi-no-na-wa-your-name-wallpaper-preview.jpg",
@@ -143,14 +143,13 @@ export const mockQuestions: SurveyContent[] = [
   {
     question: "Which genre do you prefer?",
     answer: [
-      "Mystery",
-      "Romance",
-      "Supernatural",
-      "Sci-Fi",
-      "Adventure",
-      "Comedy",
       "Action",
-      "Historical",
+      "Adventure",
+      "Animation",
+      "Family",
+      "Fantasy",
+      "Shounen",
+      "Supernatural",
       "None of the above",
     ],
     type: "multi",

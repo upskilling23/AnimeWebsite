@@ -73,7 +73,7 @@ export const Survey = () => {
                   key={answerIndexSelect}
                   className=" box-border m-3 hover:border-blue-800 border-spacing-1 border-y-4 shadow-sm  border-x-4 w-6/12 h-[60px]"
                 >
-                  <div
+                  <button
                     onClick={() => {
                       handleAnswersClick(
                         answerIndexSelect,
@@ -89,12 +89,12 @@ export const Survey = () => {
                         : ansIndex === answerIndexSelect
                           ? colour
                           : ""
-                    } h-full flex flex-row justify-between items-center`}
+                    } h-full flex w-full flex-row justify-between items-center`}
                   >
                     <div>
                       <h1 className={`${Stylings.TextWidth} w-full`}>{val} </h1>
                     </div>
-                  </div>
+                  </button>
                 </div>
               );
             })}
@@ -102,7 +102,7 @@ export const Survey = () => {
         </div>
         <div className="static w-full shadow-lg h-full bg-gray-300 flex flex-col items-center">
           {ansIndex !== null && (
-            <div
+            <button
               onClick={() =>
                 handleClick(
                   mockQuestions[quesIndex].type === "multi"
@@ -115,7 +115,7 @@ export const Survey = () => {
               className={`my-10 hover:bg-gray-100 items-center h-[30px] ${Stylings.TextWidth} font-bold cursor-pointer`}
             >
               {quesIndex === mockQuestions.length - 1 ? "Submit" : "Continue"}
-            </div>
+            </button>
           )}
         </div>
       </div>

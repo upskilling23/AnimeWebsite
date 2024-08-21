@@ -12,6 +12,7 @@ export const Home = () => {
   const { data: fetchedApiData, error, isLoading } = useApiData();
 
   const [updateValue, setUpdateValue] = useState(null);
+  const [defaultValue, setDefaultValue] = useState(null);
   // redirecting to home if survey is completed
   const locateAnswersFromStore = useSelector(
     (store: RootState) => store.surveyAnswers.items,
@@ -43,6 +44,8 @@ export const Home = () => {
             ),
       );
     } else if (fetchedApiData) {
+      // setDefaultValue(fetchedApiData.tv.push(...fetchedApiData.movies))
+      // console.log(defaultValue)
       return setUpdateValue(fetchedApiData.tv);
     }
   }, [fetchedApiData, locateAnswersFromStore]);
@@ -67,7 +70,7 @@ export const Home = () => {
         <h1
           className={`items-center pl-[20%] pt-[2%] ${Stylings.TextWidth} text-center font-extrabold`}
         >
-          Recently launched ANIME in Town!!!
+          {`Recently launched ${locateAnswersFromStore.length === 0 ? "Content" : locateAnswersFromStore[3] === "Anime" ? "Anime" : "Movies"} in Town!!!`}
         </h1>
       </div>
       <div className="w-full h-fit pt-[2%] flex flex-row overflow-auto">

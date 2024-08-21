@@ -64,7 +64,7 @@ export const Accordion = (click: ToggleContainer) => {
   };
 
   return (
-    <div onClick={clickAction} className="cursor-pointer">
+    <button onClick={clickAction} className="cursor-pointer w-full">
       <div
         className={`cursor-pointer box-border border-spacing-1 border-y-2 shadow-lg border-x-2 ${Stylings.AccordionHeight} w-9/12 ml-[10%] flex flex-row justify-between`}
       >
@@ -92,12 +92,12 @@ export const Accordion = (click: ToggleContainer) => {
                     click.decription.meta.score,
                   ].map((accordionValue, index) => {
                     return (
-                      <h1
+                      <h2
                         key={index}
                         className={`${Stylings.TextWidth} font-bold pt-4 pl-16`}
                       >
                         {index === 2 ? `⭐ ${accordionValue}` : accordionValue}
-                      </h1>
+                      </h2>
                     );
                   })}
                 </div>
@@ -114,13 +114,13 @@ export const Accordion = (click: ToggleContainer) => {
                   },
                 ].map((accordionButtonValue, index) => {
                   return (
-                    <div
+                    <button
                       key={index}
                       onClick={() => accordionButtonValue.stateValue()}
                       className={`cursor-pointer text-center px-3 mx-6 mt-[5%] bg-gray-400 h-fit rounded-lg hover:bg-gray-200 ${Stylings.TextWidth} font-bold text-wrap`}
                     >
-                      <h1>{accordionButtonValue.title}</h1>
-                    </div>
+                      <h3>{accordionButtonValue.title}</h3>
+                    </button>
                   );
                 })}
               </div>
@@ -128,10 +128,11 @@ export const Accordion = (click: ToggleContainer) => {
             <img
               className={`w-4/12 min-h-fit`}
               src={`${ImageUrl.ImageConactUrl}` + click.decription.image}
+              alt={`poster of ${click.decription.title}`}
             ></img>
           </div>
         </div>
       )}
-    </div>
+    </button>
   );
 };

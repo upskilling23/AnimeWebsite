@@ -1,9 +1,10 @@
 import React from "react";
 import { ImageUrl } from "../utils/constants";
 import { ButtonComponent } from "./ButtonComponent";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 export const EmptyList = () => {
+  const navigate = useNavigate();
   return (
     <div>
       <div className="relative w-full h-screen">
@@ -17,16 +18,19 @@ export const EmptyList = () => {
             <h1 className="text-2xl text-black pb-4 pt-2">
               Your Watchlist is empty
             </h1>
-            <h1 className="text-2xl text-black pb-4 pt-2">
+            <h2 className="text-2xl text-black pb-4 pt-2">
               {" "}
               Please add Something
-            </h1>
-            <Link to="/home">
-              <ButtonComponent
-                content={"Click to Add"}
-                styleValue={"px-3 mx-6 bg-gray-400 h-12 text-2xl font-bold"}
-              ></ButtonComponent>
-            </Link>
+            </h2>
+
+            <ButtonComponent
+              dispatch={true}
+              event={() => {
+                navigate("/home");
+              }}
+              content={"Click to Add"}
+              styleValue={"px-3 mx-6 bg-gray-400 h-12 text-2xl font-bold"}
+            ></ButtonComponent>
           </div>
         </div>
       </div>

@@ -21,7 +21,7 @@ export const NavBar = (status: loggedin) => {
     }
   }, [status.statusOption]);
   return (
-    <div
+    <nav
       className={`static h-full bg-orange-100 box-border border-spacing-1 border-y-4`}
     >
       <div className="comp flex justify-between">
@@ -29,6 +29,7 @@ export const NavBar = (status: loggedin) => {
           <img
             className={`relative w-[100px] h-[100px]`}
             src={ImageUrl.Logo}
+            alt="website logo"
           ></img>
         </div>
         {statusValue ? (
@@ -46,9 +47,9 @@ export const NavBar = (status: loggedin) => {
                 </h1>
               </Link>
             </div>
-            <h1 className={`${Stylings.TextWidth} pr-[2%] my-1 pt-8`}>
+            <h2 className={`${Stylings.TextWidth} pr-[2%] my-1 pt-8`}>
               Hi {""}
-            </h1>
+            </h2>
           </>
         ) : (
           <div className="py-9 my-auto">
@@ -69,6 +70,6 @@ export const NavBar = (status: loggedin) => {
           </div>
         )}
       </div>
-    </div>
+    </nav>
   );
 };

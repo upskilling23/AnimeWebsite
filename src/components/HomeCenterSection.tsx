@@ -5,11 +5,14 @@ import { useApiData } from "../hooks/useApiData";
 import { LoadingContainer } from "./LoadingContainer";
 import { useSelector } from "react-redux";
 import { RootState } from "../utils/appStore";
+import mockData from "../utils/mockdata.json";
 
 export const HomeCenterSection = () => {
   const [showindex, setShowindex] = useState(null);
   const { data: fetchedApiData, error, isLoading } = useApiData();
   const [updateValue, setUpdateValue] = useState();
+  const [updateMock, setUpdateMock] = useState(mockData.movies);
+  const mockDataValue = mockData.movies;
 
   const locateAnswersFromStore = useSelector(
     (store: RootState) => store.surveyAnswers.items,
@@ -24,6 +27,8 @@ export const HomeCenterSection = () => {
       );
     } else if (fetchedApiData) {
       return setUpdateValue(fetchedApiData.tv);
+    } else {
+      setUpdateValue(setUpdateMock(mockDataValue));
     }
   }, [fetchedApiData, locateAnswersFromStore]);
 
@@ -55,7 +60,7 @@ export const HomeCenterSection = () => {
               );
             })
         ) : (
-          <div>No data available</div>
+          setUpdateValue(updateMock)
         )}
       </div>
     </div>

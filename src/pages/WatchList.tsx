@@ -97,7 +97,10 @@ export const AddedValuesinWatchList = (
                         title={cardValue.title}
                         count={
                           ["??", ""].includes(cardValue.meta.episodes)
-                            ? cardValue.latest_episode.metadata.number.toString()
+                            ? cardValue.latest_episode.metadata.number.toString() ===
+                              "false"
+                              ? `Movie - ${cardValue.meta.aired}`
+                              : cardValue.latest_episode.metadata.number.toString()
                             : cardValue.meta.episodes.toString()
                         }
                         rating={cardValue.meta.score.toString()}

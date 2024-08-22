@@ -6,13 +6,15 @@ import { useSelector } from "react-redux";
 import { RootState } from "../utils/appStore";
 import { LoadingContainer } from "../components/LoadingContainer";
 import { useApiData } from "../hooks/useApiData";
+import mockData from "../utils/mockdata.json";
 
 export const Home = () => {
   const [showSurvey, setShowSurvey] = useState(false);
   const { data: fetchedApiData, error, isLoading } = useApiData();
 
   const [updateValue, setUpdateValue] = useState(null);
-  const [defaultValue, setDefaultValue] = useState(null);
+  const [updateMock, setUpdateMock] = useState(mockData.movies);
+  const mockDataValue = mockData.movies;
   // redirecting to home if survey is completed
   const locateAnswersFromStore = useSelector(
     (store: RootState) => store.surveyAnswers.items,
@@ -29,24 +31,28 @@ export const Home = () => {
       return setUpdateValue(
         locateAnswersFromStore[3] === "Anime"
           ? fetchedApiData.tv.filter((val) =>
-              val.genre.some((val1) =>
-                locateAnswersFromStore[2].some((val2) =>
-                  val2.includes(val1.name),
-                ),
-              ),
+              val.genre.some((val1) => {
+                const answer = locateAnswersFromStore[2];
+                if (Array.isArray(answer)) {
+                  return answer.some((val2) => val2.includes(val1.name));
+                }
+                return false;
+              }),
             )
           : fetchedApiData.movies.filter((val) =>
-              val.genre.some((val1) =>
-                locateAnswersFromStore[2].some((val2) =>
-                  val2.includes(val1.name),
-                ),
-              ),
+              val.genre.some((val1) => {
+                const answer = locateAnswersFromStore[2];
+                if (Array.isArray(answer)) {
+                  return answer.some((val2) => val2.includes(val1.name));
+                }
+                return false;
+              }),
             ),
       );
     } else if (fetchedApiData) {
-      // setDefaultValue(fetchedApiData.tv.push(...fetchedApiData.movies))
-      // console.log(defaultValue)
       return setUpdateValue(fetchedApiData.tv);
+    } else {
+      setUpdateValue(setUpdateMock(mockDataValue));
     }
   }, [fetchedApiData, locateAnswersFromStore]);
 
@@ -85,7 +91,10 @@ export const Home = () => {
                   title={card.title}
                   count={
                     ["??", ""].includes(card.meta.episodes)
-                      ? card.latest_episode.metadata.number.toString()
+                      ? card.latest_episode.metadata.number.toString() ===
+                        "false"
+                        ? `Movie - ${card.meta.aired}`
+                        : card.latest_episode.metadata.number.toString()
                       : card.meta.episodes.toString()
                   }
                   rating={card.meta.score}
@@ -95,7 +104,7 @@ export const Home = () => {
             </div>
           ))
         ) : (
-          <div>No data available</div>
+          setUpdateValue(updateMock)
         )}
       </div>
     </div>

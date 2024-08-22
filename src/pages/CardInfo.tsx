@@ -1,24 +1,35 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { ImageUrl, Stylings } from "../utils/constants";
-import { Link, useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { useApiData } from "../hooks/useApiData";
 import { LoadingPage } from "../components/LoadingContainer";
 import { useSelector } from "react-redux";
 import { RootState } from "../utils/appStore";
+import mockData from "../utils/mockdata.json";
 
 export const CardInfo = () => {
   const idValue = useParams();
   const { data: fetchedApiData, error, isLoading } = useApiData();
+
   const locateAnswersFromStore = useSelector(
     (store: RootState) => store.surveyAnswers.items,
   );
+  const [updateData, setUpdateData] = useState();
+  useEffect(() => {
+    if (fetchedApiData) {
+      const fetchedData =
+        locateAnswersFromStore.length === 0 && fetchedApiData
+          ? fetchedApiData.tv
+          : locateAnswersFromStore[3] === "Anime"
+            ? fetchedApiData.tv
+            : fetchedApiData.movies;
+      setUpdateData(fetchedData);
+    } else {
+      setUpdateData(mockData.movies);
+    }
+  }, [fetchedApiData]);
   const navigate = useNavigate();
-  const fetchedData =
-    locateAnswersFromStore.length === 0
-      ? fetchedApiData.tv
-      : locateAnswersFromStore[3] === "Anime"
-        ? fetchedApiData.tv
-        : fetchedApiData.movies;
+
   return isLoading ? (
     <LoadingPage></LoadingPage>
   ) : (
@@ -38,8 +49,8 @@ export const CardInfo = () => {
 
         <div className="flex flex-col pt-[5%] pl-[10%]">
           <div className="h-full pt-[4%]">
-            {fetchedApiData && fetchedData ? (
-              fetchedData
+            {updateData ? (
+              updateData
                 .filter((cardValue) => cardValue.id.toString() === idValue.id)
                 .map((filteredCardValue, index) => {
                   return (

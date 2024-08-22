@@ -117,7 +117,7 @@ export const AnimeAPI =
 
 export enum ImageUrl {
   ImageConactUrl = "https://anime-world.in/",
-  BgImage = `https://wallpapercave.com/wp/wp5891612.jpg`,
+  BgImage = `https://wallpapercave.com/wp/wp10122399.jpg`,
   Logo = `https://toppng.com/uploads/preview/cool-anime-logo-designs-cool-anime-logos-11569048807nxxriulgp2.png`,
   LoginImage = "https://japantour.xyz/wp-content/uploads/2019/11/15s-1140x641.png",
   BgImageLogin = "https://c4.wallpaperflare.com/wallpaper/469/818/500/kimi-no-na-wa-your-name-wallpaper-preview.jpg",

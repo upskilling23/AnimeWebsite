@@ -87,7 +87,10 @@ export const Accordion = (click: ToggleContainer) => {
                     ["??", ""].some((value) =>
                       value.includes(click.decription.meta.episodes),
                     )
-                      ? click.decription.latest_episode.metadata.number
+                      ? click.decription.latest_episode.metadata.number.toString() ===
+                        "false"
+                        ? `Movie - ${click.decription.meta.aired}`
+                        : click.decription.latest_episode.metadata.number.toString()
                       : click.decription.meta.episodes,
                     click.decription.meta.score,
                   ].map((accordionValue, index) => {
@@ -114,13 +117,22 @@ export const Accordion = (click: ToggleContainer) => {
                   },
                 ].map((accordionButtonValue, index) => {
                   return (
-                    <button
+                    <div
                       key={index}
+                      role="button"
+                      tabIndex="0"
+                      type="button"
                       onClick={() => accordionButtonValue.stateValue()}
+                      onKeyDown={(e) => {
+                        if (e.key === "Enter" || e.key === " ") {
+                          e.preventDefault();
+                          accordionButtonValue.stateValue();
+                        }
+                      }}
                       className={`cursor-pointer text-center px-3 mx-6 mt-[5%] bg-gray-400 h-fit rounded-lg hover:bg-gray-200 ${Stylings.TextWidth} font-bold text-wrap`}
                     >
                       <h3>{accordionButtonValue.title}</h3>
-                    </button>
+                    </div>
                   );
                 })}
               </div>

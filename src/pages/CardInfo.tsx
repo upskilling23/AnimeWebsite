@@ -67,11 +67,11 @@ export const CardInfo = () => {
                       <h1
                         className={`${Stylings.TextWidth} text-black pt-[1%]`}
                       >
-                        {filteredCardValue.title}
+                        <span className={`text-xl font-bold`}>{filteredCardValue.title}</span>
                         <br></br>
-                        {filteredCardValue.meta.score}
+                        <span>Rating : </span><span className={`text-sm font-extrabold`}>{filteredCardValue.meta.score}</span>
                         <br></br>
-                        {filteredCardValue.content}
+                        <span className={`text-md font-sans`}>{filteredCardValue.content}</span>
                       </h1>
                     </div>
                   );

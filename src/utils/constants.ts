@@ -11,6 +11,8 @@ export enum Stylings {
 
 export interface InputBoxInterface {
   state?: any;
+  type?:string;
+  isVisible?: boolean;
   passingText?: string;
   placeHolder?: string;
   DisplayValue?: string;

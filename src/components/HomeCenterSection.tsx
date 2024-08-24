@@ -12,7 +12,7 @@ export const HomeCenterSection = () => {
   const { data: fetchedApiData, error, isLoading } = useApiData();
   const [updateValue, setUpdateValue] = useState();
   const [updateMock, setUpdateMock] = useState(mockData.movies);
-  const mockDataValue = mockData.movies;
+  const mockDataValue = mockData;
 
   const locateAnswersFromStore = useSelector(
     (store: RootState) => store.surveyAnswers.items,
@@ -20,15 +20,20 @@ export const HomeCenterSection = () => {
 
   useEffect(() => {
     if (locateAnswersFromStore.length === 4 && fetchedApiData) {
-      return setUpdateValue(
+       setUpdateValue(
         locateAnswersFromStore[3] === "Anime"
           ? fetchedApiData.tv
           : fetchedApiData.movies,
       );
     } else if (fetchedApiData) {
-      return setUpdateValue(fetchedApiData.tv);
-    } else {
-      setUpdateValue(setUpdateMock(mockDataValue));
+       setUpdateValue(fetchedApiData.tv);
+    } else if(locateAnswersFromStore.length === 4 && updateMock){
+       setUpdateValue(setUpdateMock(locateAnswersFromStore[3] === "Anime"
+        ? mockData.tv
+        : mockData.movies))
+    }
+    else{
+       setUpdateValue(setUpdateMock(mockDataValue.movies));
     }
   }, [fetchedApiData, locateAnswersFromStore]);
 

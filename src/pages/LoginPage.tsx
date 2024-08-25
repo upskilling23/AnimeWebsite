@@ -1,8 +1,16 @@
-import React, { useState } from "react";
+import React, { useState , useEffect} from "react";
 import { ImageUrl, InputBoxInterface, Stylings } from "../utils/constants";
 import { ButtonComponent } from "../components/ButtonComponent";
 import { useNavigate } from "react-router-dom";
 import { validateContent } from "../utils/validateContent";
+import { createUserWithEmailAndPassword, onAuthStateChanged, signInWithEmailAndPassword, updateProfile } from "firebase/auth";
+import { auth } from "../utils/firebase";
+import { useDispatch, useSelector } from "react-redux";
+import { clearSurvey } from "../utils/redux/answersSlice";
+import { RootState } from "../utils/appStore";
+import { clearedItem } from "../utils/redux/watchedSlice";
+import { clearItem } from "../utils/redux/watchlistSlice";
+import { addUser, signOutUser } from "../utils/redux/usersSlice";
 
 export const LoginPage = () => {
   // State for login form
@@ -19,6 +27,11 @@ export const LoginPage = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState(null);
   const navigate = useNavigate();
+  const dispatch= useDispatch();
+  const locateAnswersFromStore = useSelector(
+    (store: RootState) => store.surveyAnswers.items,
+  );
+
 
   const loginInputFields: InputBoxInterface[] = [
     {
@@ -85,6 +98,59 @@ export const LoginPage = () => {
       ? validateContent(login, loginName, loginPass)
       : validateContent(login, undefined,undefined,regName, regPass,regConfirmPass, regFullName);
 
+      if(message===null)
+      {
+      if(login)
+      {
+        signInWithEmailAndPassword(auth, loginName, loginPass)
+       
+        .then((userCredential) => {
+          const user = userCredential.user;
+          if(locateAnswersFromStore.length === 0)
+          {
+            navigate('/survey-welcome')
+          }
+          else{
+            navigate('/home')
+          }
+        })
+        .catch((error) => {
+          const errorCode = error.code;
+          const errorMessage = error.message;
+          if(errorMessage.includes('(auth/invalid-credential)'))
+          {
+          setError('Invalid credentials / User not registered')
+          }
+          else{
+            setError(errorMessage)
+          }
+        });
+      }
+      else {
+        createUserWithEmailAndPassword(auth, regName, regPass)
+        .then((userCredential) => {
+          // Signed in 
+          const user = userCredential.user;
+          console.log(user)
+          updateProfile(user,{displayName:regFullName});
+          
+        }).then(()=>
+        { const {uid, email, displayName} = auth.currentUser;
+          dispatch(addUser({uid:uid,email:email, displayName:displayName}))
+          dispatch(clearSurvey());
+          dispatch(clearedItem());
+          dispatch(clearItem());
+          navigate('/survey-welcome')
+        })
+        
+        .catch((error) => {
+          const errorCode = error.code;
+          const errorMessage = error.message;
+          setError(errorMessage)
+        });
+      }
+    }
+
     if (message) {
       setError(message);
     } else {
@@ -100,8 +166,18 @@ export const LoginPage = () => {
         src={ImageUrl.BgImageLogin}
         alt=""
       />
+    
+      
       <div className="absolute inset-0 flex items-center justify-center">
-        <div className="bg-white bg-opacity-20 p-10 rounded-lg shadow-lg max-w-md w-full mx-4">
+      
+        <div className="bg-white   bg-opacity-20 p-10 rounded-lg shadow-lg max-w-md w-full mx-4">
+        <div className="flex justify-center  opacity-90">
+      <button  
+      onClick ={()=> navigate('/home')} className={`w-8/12 cursor-pointer bg-black ${Stylings.StyleInputBox} ${Stylings.TextWidth} font-bold text-white rounded-md`}
+           >
+          I'll do it later
+        </button>
+    </div>
           {(login ? loginInputFields : registerInputFields).map((inputValue, index) => (
             <div key={index} className="pt-[3%]">
               <label

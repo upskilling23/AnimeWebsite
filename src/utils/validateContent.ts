@@ -12,7 +12,7 @@ export const validateContent = (
   const passwordValid = /^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*\W)(?!.* ).{8,16}$/.test(isLogin ? loginPassword ?? '' : regPassword ?? '');
  
   
-  if(!regFullName)
+  if(!isLogin && !regFullName)
   {
     return "Enter your full name";
   }
@@ -24,7 +24,7 @@ export const validateContent = (
   else if (isLogin ? !loginPassword : !regPassword) {
     return "Enter your password";
   }
-  else if(!reEnterRegPassword)
+  else if(!isLogin && !reEnterRegPassword)
   {
     return "Enter your password again in re-enter field";
   }
@@ -39,7 +39,7 @@ export const validateContent = (
   }
 
   // Check password match for registration
-  else if (regPassword !== reEnterRegPassword) {
+  else if (!isLogin && regPassword !== reEnterRegPassword) {
     return "Your passwords do not match";
   }
 

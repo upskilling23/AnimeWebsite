@@ -4,11 +4,13 @@ import watchedSlice from "./redux/watchedSlice";
 import answersSlice from "./redux/answersSlice";
 import storage from "redux-persist/lib/storage";
 import { persistReducer, persistStore } from "redux-persist";
+import usersSlice from "./redux/usersSlice";
 
 const rootReducer = combineReducers({
   watchlist: watchlistSlice,
   watched: watchedSlice,
   surveyAnswers: answersSlice,
+  user: usersSlice,
 });
 
 const persistConfig = {

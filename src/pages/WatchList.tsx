@@ -104,7 +104,7 @@ export const AddedValuesinWatchList = (
                             : cardValue.meta.episodes.toString()
                         }
                         rating={cardValue.meta.score.toString()}
-                        image={`${ImageUrl.ImageConactUrl}${cardValue.image}`}
+                        image={`${ImageUrl.ImageConactUrl}${cardValue.image.includes('https') ? cardValue.image.split('https://anime-world.in')[1] : cardValue.image}`}
                       ></RemoveIcon>
                     </div>
                   );

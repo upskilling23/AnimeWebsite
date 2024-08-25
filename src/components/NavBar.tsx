@@ -1,29 +1,42 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect } from "react";
 import { ImageUrl, Stylings } from "../utils/constants";
-import { ButtonComponent } from "./ButtonComponent";
-import { Link, useParams } from "react-router-dom";
-import { loggedin } from "../pages/Header";
-import { useSelector } from "react-redux";
+import { Link, useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../utils/appStore";
+import { addUser, signOutUser } from "../utils/redux/usersSlice";
+import { onAuthStateChanged, signOut } from "firebase/auth";
+import { auth } from "../utils/firebase";
 
-export const NavBar = (status: loggedin) => {
-  const getUrl: string = useParams().toString();
-  const [statusValue, setStatusValue] = useState(false); //checking state of user whether logged in or not
+export const NavBar = () => {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
+  // Retrieve user from the Redux store
+  const locateUsersFromStore = useSelector((store: RootState) => store.user.items);
+  const locateAnswersFromStore = useSelector(
+    (store: RootState) => store.surveyAnswers.items,
+  );
   const locatorFromStoreForWatchListItems = useSelector(
     (store: RootState) => store.watchlist.items,
   );
-  // fetching items from redux to update the watchlist
+  // Listen for Firebase authentication state changes
   useEffect(() => {
-    if (status.statusOption === "loggedIn") {
-      setStatusValue(true);
-    } else {
-      setStatusValue(false);
-    }
-  }, [status.statusOption]);
+    const unsubscribe = onAuthStateChanged(auth, (user) => {
+      if (user) {
+        // If the user is logged in, update the Redux store with user details
+        dispatch(addUser({ uid: user.uid, displayName: user.displayName, email: user.email }));
+      } else {
+        // If the user is logged out, clear the user from the Redux store
+        dispatch(signOutUser());
+      }
+    });
+
+    // Cleanup the listener on component unmount
+    return () => unsubscribe();
+  }, [dispatch]);
+
   return (
-    <nav
-      className={`static h-full bg-orange-100 box-border border-spacing-1 border-y-4`}
-    >
+    <nav className={`static h-full bg-orange-100 box-border border-spacing-1 border-y-4`}>
       <div className="comp flex justify-between">
         <div>
           <img
@@ -32,42 +45,52 @@ export const NavBar = (status: loggedin) => {
             alt="website logo"
           ></img>
         </div>
-        {statusValue ? (
+        {
+          locateUsersFromStore && locateUsersFromStore.length> 0 && locateAnswersFromStore
+          && 
+          <div className="items-center pt-8">
+          
+            <h1
+            onClick={()=>{navigate('/watch-list')}}
+              className={`cursor-pointer ${Stylings.TextWidth} items-center`}
+            >
+              WatchList{" "}
+              {locatorFromStoreForWatchListItems.length > 0 &&
+                (locatorFromStoreForWatchListItems.length > 1
+                  ? `${locatorFromStoreForWatchListItems.length} items`
+                  : `${locatorFromStoreForWatchListItems.length} item`)}
+            </h1>
+          
+        </div>
+        }
+        {locateUsersFromStore && locateUsersFromStore.length > 0 ? (
           <>
-            <div className="items-center pt-8">
-              <Link to="/watch-list">
-                <h1
-                  className={`cursor-pointer ${Stylings.TextWidth} items-center`}
-                >
-                  WatchList{" "}
-                  {locatorFromStoreForWatchListItems.length > 0 &&
-                    (locatorFromStoreForWatchListItems.length > 1
-                      ? `${locatorFromStoreForWatchListItems.length} items`
-                      : `${locatorFromStoreForWatchListItems.length} item`)}
-                </h1>
-              </Link>
-            </div>
             <h2 className={`${Stylings.TextWidth} pr-[2%] my-1 pt-8`}>
-              Hi {""}
+              Hi {locateUsersFromStore[0]?.displayName || "User"}
             </h2>
+            <button
+              onClick={() => {
+                signOut(auth)
+                  .then(() => {
+                    dispatch(signOutUser());
+                    navigate('/');
+                  })
+                  .catch((error) => {
+                    console.log(error);
+                  });
+              }}
+              className="px-3 mx-6 bg-gray-400 h-12 text-4xl font-bold"
+            >
+              Sign Out
+            </button>
           </>
         ) : (
-          <div className="py-9 my-auto">
-            <Link to="/sign-up">
-              {" "}
-              <ButtonComponent
-                content={"Sign Up"}
-                styleValue={"px-3 mx-6 bg-gray-400 h-12 text-4xl font-bold"}
-              ></ButtonComponent>
-            </Link>
-            <Link to="/login">
-              {" "}
-              <ButtonComponent
-                content={"Login"}
-                styleValue={"px-3 mx-6 bg-gray-400 h-12 text-4xl font-bold"}
-              ></ButtonComponent>
-            </Link>
-          </div>
+          <button
+            onClick={() => navigate("/login")}
+            className={`w-2/12 cursor-pointer bg-black ${Stylings.StyleInputBox} ${Stylings.TextWidth} font-bold text-white rounded-md mr-[1%]`}
+          >
+            Login
+          </button>
         )}
       </div>
     </nav>

@@ -2,12 +2,13 @@ import React, { useState, useEffect } from "react";
 import { AnimeCard } from "../components/AnimeCards";
 import { ImageUrl, Movie, Stylings } from "../utils/constants";
 import { Link } from "react-router-dom";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../utils/appStore";
 import { LoadingContainer } from "../components/LoadingContainer";
 import { useApiData } from "../hooks/useApiData";
 import mockData from "../utils/mockdata.json";
 import { useSurveyAnswer } from "../hooks/useSurveyAnswer";
+import { clearSurvey } from "../utils/redux/answersSlice";
 
 
 export const Home = () => {
@@ -17,12 +18,15 @@ export const Home = () => {
   const [updateValue, setUpdateValue] = useState(null);
   const [updateMock, setUpdateMock] = useState(mockData.movies);
   const mockDataValue = mockData;
-
+ const dispatch =useDispatch();
   // redirecting to home if survey is completed
   const locateAnswersFromStore = useSelector(
     (store: RootState) => store.surveyAnswers.items,
   );
 
+  const locateUsersFromStore =useSelector(
+    (store: RootState) => store.user.items,
+  );
   // fetching answers from redux store to check user completed the survey or not
   useEffect(() => {
     if (locateAnswersFromStore.length === 0) {
@@ -30,6 +34,12 @@ export const Home = () => {
     }
   }, []);
   useEffect(() => {
+    if(locateUsersFromStore.length ===0)
+      {
+        dispatch(clearSurvey())
+        console.log(locateAnswersFromStore)
+        return setUpdateValue(setUpdateMock(mockDataValue.movies));
+      }
     if (locateAnswersFromStore.length === 4 && fetchedApiData) {
       return setUpdateValue(
         useSurveyAnswer(locateAnswersFromStore,fetchedApiData)
@@ -38,7 +48,7 @@ export const Home = () => {
       return setUpdateValue(fetchedApiData.tv);
     } else if(locateAnswersFromStore.length === 4 && updateMock){
       return setUpdateValue(setUpdateMock(useSurveyAnswer(locateAnswersFromStore,mockDataValue)));
-    }
+    } 
     else{
       return setUpdateValue(setUpdateMock(mockDataValue.movies));
     }
@@ -49,7 +59,7 @@ export const Home = () => {
   }
   return (
     <div className="relative w-full h-fit bg-gray-50">
-      {showSurvey && (
+      {locateAnswersFromStore&&  locateUsersFromStore.length >0 && showSurvey && (
         <div className="pt-[5%] bg-gray-50 ml-[40%]">
           <Link to="/survey-welcome">
             <div className="cursor-pointer inline-block hover:bg-slate-100 box-border rounded-lg items-center border-black h-fit border-spacing-2 border-y-2 shadow-lg border-x-2  w-5/12">
@@ -86,8 +96,8 @@ export const Home = () => {
                       : card.meta.episodes.toString()
                   }
                   rating={card.meta.score}
-                  image={`${ImageUrl.ImageConactUrl}${card.image}`}
-                />
+                  image={`${ImageUrl.ImageConactUrl}${card.image.includes('https') ? card.image.split('https://anime-world.in')[1] : card.image}`}
+                  />
               </Link>
             </div>
           ))

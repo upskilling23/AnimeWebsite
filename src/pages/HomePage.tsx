@@ -9,22 +9,22 @@ import { useApiData } from "../hooks/useApiData";
 import mockData from "../utils/mockdata.json";
 import { useSurveyAnswer } from "../hooks/useSurveyAnswer";
 import { clearSurvey } from "../utils/redux/answersSlice";
-
+import { useMobile } from "../hooks/useMobile";
 
 export const Home = () => {
   const [showSurvey, setShowSurvey] = useState(false);
-  const { data: fetchedApiData, error, isLoading } = useApiData();
-
+  const { data: fetchedApiData, isLoading } = useApiData();
+  const isMobile = useMobile();
   const [updateValue, setUpdateValue] = useState(null);
   const [updateMock, setUpdateMock] = useState(mockData.movies);
   const mockDataValue = mockData;
- const dispatch =useDispatch();
+  const dispatch = useDispatch();
   // redirecting to home if survey is completed
   const locateAnswersFromStore = useSelector(
     (store: RootState) => store.surveyAnswers.items,
   );
 
-  const locateUsersFromStore =useSelector(
+  const locateUsersFromStore = useSelector(
     (store: RootState) => store.user.items,
   );
   // fetching answers from redux store to check user completed the survey or not
@@ -34,42 +34,58 @@ export const Home = () => {
     }
   }, []);
   useEffect(() => {
-    if(locateUsersFromStore.length ===0)
-      {
-        dispatch(clearSurvey())
-        console.log(locateAnswersFromStore)
-        return setUpdateValue(setUpdateMock(mockDataValue.movies));
+    if (locateUsersFromStore.length === 0) {
+      dispatch(clearSurvey());
+      if (fetchedApiData) {
+        setUpdateValue(fetchedApiData.tv.slice(0, 4));
+      } else {
+        setUpdateValue(setUpdateMock(mockDataValue.tv.slice(0, 4)));
       }
-    if (locateAnswersFromStore.length === 4 && fetchedApiData) {
-      return setUpdateValue(
-        useSurveyAnswer(locateAnswersFromStore,fetchedApiData)
-      );
-    } else if (fetchedApiData) {
-      return setUpdateValue(fetchedApiData.tv);
-    } else if(locateAnswersFromStore.length === 4 && updateMock){
-      return setUpdateValue(setUpdateMock(useSurveyAnswer(locateAnswersFromStore,mockDataValue)));
-    } 
-    else{
-      return setUpdateValue(setUpdateMock(mockDataValue.movies));
+    } else {
+      if (locateAnswersFromStore.length === 0) {
+        if (fetchedApiData) {
+          setUpdateValue(fetchedApiData.tv);
+        } else {
+          setUpdateValue(setUpdateMock(mockDataValue.tv));
+        }
+      } else {
+        if (fetchedApiData) {
+          setUpdateValue(
+            useSurveyAnswer(locateAnswersFromStore, fetchedApiData),
+          );
+        } else {
+          setUpdateValue(useSurveyAnswer(locateAnswersFromStore, mockData));
+        }
+      }
     }
-  }, [fetchedApiData, locateAnswersFromStore]);
+  }, [fetchedApiData, locateAnswersFromStore, locateUsersFromStore]);
 
   if (updateValue === null) {
     return <LoadingContainer></LoadingContainer>;
   }
   return (
-    <div className="relative w-full h-fit bg-gray-50">
-      {locateAnswersFromStore&&  locateUsersFromStore.length >0 && showSurvey && (
-        <div className="pt-[5%] bg-gray-50 ml-[40%]">
-          <Link to="/survey-welcome">
-            <div className="cursor-pointer inline-block hover:bg-slate-100 box-border rounded-lg items-center border-black h-fit border-spacing-2 border-y-2 shadow-lg border-x-2  w-5/12">
-              <h1 className={`${Stylings.TextWidth} text-wrap text-center`}>
-                Click to take survey
-              </h1>
-            </div>
-          </Link>
+    <div className="relative w-full h-fit bg-gray-50 overflow-hidden">
+      {locateUsersFromStore.length === 0 && (
+        <div className="animate-scroll font-bold text-xl text-nowrap text-amber-950">
+          {" "}
+          {isMobile
+            ? "Login for more content"
+            : "Login for more content and answer survey to generate content of your choice"}
         </div>
       )}
+      {locateAnswersFromStore &&
+        locateUsersFromStore.length > 0 &&
+        showSurvey && (
+          <div className="pt-[5%] bg-gray-50 ml-[40%]">
+            <Link to="/survey-welcome">
+              <div className="cursor-pointer inline-block hover:bg-slate-100 box-border rounded-lg items-center border-black h-fit border-spacing-2 border-y-2 shadow-lg border-x-2  w-5/12">
+                <h1 className={`${Stylings.TextWidth} text-wrap text-center`}>
+                  Click to take survey
+                </h1>
+              </div>
+            </Link>
+          </div>
+        )}
       <div className="w-10/12  align-middle">
         <h1
           className={`items-center pl-[20%] pt-[2%] ${Stylings.TextWidth} text-center font-extrabold`}
@@ -96,8 +112,8 @@ export const Home = () => {
                       : card.meta.episodes.toString()
                   }
                   rating={card.meta.score}
-                  image={`${ImageUrl.ImageConactUrl}${card.image.includes('https') ? card.image.split('https://anime-world.in')[1] : card.image}`}
-                  />
+                  image={`${ImageUrl.ImageConactUrl}${card.image.includes("https") ? card.image.split("https://anime-world.in")[1] : card.image}`}
+                />
               </Link>
             </div>
           ))

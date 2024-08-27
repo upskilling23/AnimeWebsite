@@ -8,12 +8,15 @@ export const validateContent = (
   regFullName?: string,
 ): string | null => {
   // Validate username or email
-  const emailIdValid = /^[a-zA-Z0-9+_.-]+@[a-zA-Z0-9.-]+$/.test(isLogin ? loginName ?? '' : regName ?? '');
-  const passwordValid = /^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*\W)(?!.* ).{8,16}$/.test(isLogin ? loginPassword ?? '' : regPassword ?? '');
- 
-  
-  if(!isLogin && !regFullName)
-  {
+  const emailIdValid = /^[a-zA-Z0-9+_.-]+@[a-zA-Z0-9.-]+$/.test(
+    isLogin ? loginName ?? "" : regName ?? "",
+  );
+  const passwordValid =
+    /^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*\W)(?!.* ).{8,16}$/.test(
+      isLogin ? loginPassword ?? "" : regPassword ?? "",
+    );
+
+  if (!isLogin && !regFullName) {
     return "Enter your full name";
   }
   if (isLogin ? !loginName : !regName) {
@@ -23,13 +26,11 @@ export const validateContent = (
   // Validate passwords
   else if (isLogin ? !loginPassword : !regPassword) {
     return "Enter your password";
-  }
-  else if(!isLogin && !reEnterRegPassword)
-  {
+  } else if (!isLogin && !reEnterRegPassword) {
     return "Enter your password again in re-enter field";
   }
   // Validate email format
-  else if(!emailIdValid) {
+  else if (!emailIdValid) {
     return "Email is invalid";
   }
 

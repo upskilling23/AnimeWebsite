@@ -46,7 +46,7 @@ export const Modal = ({ open, stateValue }: ModalOpen) => {
                 ❌
               </h1>
             </div>
-            <div className="pt-[40%] flex flex-row justify-center">
+            <div className="pt-[25%] flex flex-row justify-center">
               <div
                 role="button"
                 tabIndex="0"

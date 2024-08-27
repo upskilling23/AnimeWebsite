@@ -14,6 +14,7 @@ export const CardInfo = () => {
   const locateAnswersFromStore = useSelector(
     (store: RootState) => store.surveyAnswers.items,
   );
+
   const [updateData, setUpdateData] = useState();
   useEffect(() => {
     if (fetchedApiData) {
@@ -25,7 +26,7 @@ export const CardInfo = () => {
             : fetchedApiData.movies;
       setUpdateData(fetchedData);
     } else {
-      setUpdateData(mockData.movies);
+      setUpdateData(mockData.tv);
     }
   }, [fetchedApiData]);
   const navigate = useNavigate();
@@ -67,11 +68,18 @@ export const CardInfo = () => {
                       <h1
                         className={`${Stylings.TextWidth} text-black pt-[1%]`}
                       >
-                        <span className={`text-xl font-bold`}>{filteredCardValue.title}</span>
+                        <span className={`text-xl font-bold`}>
+                          {filteredCardValue.title}
+                        </span>
                         <br></br>
-                        <span>Rating : </span><span className={`text-sm font-extrabold`}>{filteredCardValue.meta.score}</span>
+                        <span>Rating : </span>
+                        <span className={`text-sm font-extrabold`}>
+                          {filteredCardValue.meta.score}
+                        </span>
                         <br></br>
-                        <span className={`text-md font-sans`}>{filteredCardValue.content}</span>
+                        <span className={`text-md font-sans`}>
+                          {filteredCardValue.content}
+                        </span>
                       </h1>
                     </div>
                   );

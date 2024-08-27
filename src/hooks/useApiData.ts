@@ -1,7 +1,9 @@
 import { useQuery } from "@tanstack/react-query";
 import { AnimeAPI, AnimeApiResponse, Movie } from "../utils/constants";
 
-const fetchAnimeData = async (retries= 1) : Promise<AnimeApiResponse | null> => {
+const fetchAnimeData = async (
+  retries = 1,
+): Promise<AnimeApiResponse | null> => {
   try {
     const response = await fetch(AnimeAPI);
 
@@ -20,7 +22,6 @@ const fetchAnimeData = async (retries= 1) : Promise<AnimeApiResponse | null> => 
       return null;
     }
   }
- 
 };
 
 export const useApiData = () => {

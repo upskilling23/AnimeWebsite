@@ -18,56 +18,62 @@ export const HomeCenterSection = () => {
     (store: RootState) => store.surveyAnswers.items,
   );
 
+  const locateUsersFromStore = useSelector(
+    (store: RootState) => store.user.items,
+  );
   useEffect(() => {
     if (locateAnswersFromStore.length === 4 && fetchedApiData) {
-       setUpdateValue(
+      setUpdateValue(
         locateAnswersFromStore[3] === "Anime"
           ? fetchedApiData.tv
           : fetchedApiData.movies,
       );
     } else if (fetchedApiData) {
-       setUpdateValue(fetchedApiData.tv);
-    } else if(locateAnswersFromStore.length === 4 && updateMock){
-       setUpdateValue(setUpdateMock(locateAnswersFromStore[3] === "Anime"
-        ? mockData.tv
-        : mockData.movies))
-    }
-    else{
-       setUpdateValue(setUpdateMock(mockDataValue.movies));
+      setUpdateValue(fetchedApiData.tv);
+    } else if (locateAnswersFromStore.length === 4 && updateMock) {
+      setUpdateValue(
+        setUpdateMock(
+          locateAnswersFromStore[3] === "Anime" ? mockData.tv : mockData.movies,
+        ),
+      );
+    } else {
+      setUpdateValue(setUpdateMock(mockDataValue.movies));
     }
   }, [fetchedApiData, locateAnswersFromStore]);
 
   return (
-    <div className={`w-full h-fit pt-[3%]`}>
-      <div className="w-10/12 align-middle">
-        <h1
-          className={`items-center pl-[20%] pt-[1%] ${Stylings.TextWidth} text-center font-extrabold`}
-        >
-          Add items to your watchlist, top rated content in the world
-        </h1>
+    locateUsersFromStore.length !== 0 && (
+      <div className={`w-full h-fit pt-[3%]`}>
+        <div className="w-10/12 align-middle">
+          <h1
+            className={`items-center pl-[20%] pt-[1%] ${Stylings.TextWidth} text-center font-extrabold`}
+          >
+            Add items to your watchlist, top rated content in the world
+          </h1>
+        </div>
+        <div className="mt-[3%]">
+          {isLoading ? (
+            <LoadingContainer />
+          ) : updateValue ? (
+            updateValue
+              .filter((filterRating) => filterRating.meta.score > 8.5)
+              .map((value, index) => {
+                return (
+                  <div key={index}>
+                    <Accordion
+                      toggleValue={index === showindex ? true : false}
+                      indexState={() => setShowindex(index)}
+                      decription={value}
+                      title={`Click to view`}
+                    ></Accordion>
+                  </div>
+                );
+              })
+          ) : (
+            setUpdateValue(updateMock)
+          )}
+        </div>
       </div>
-      <div className="mt-[3%]">
-        {isLoading ? (
-          <LoadingContainer />
-        ) : updateValue ? (
-          updateValue
-            .filter((filterRating) => filterRating.meta.score > 8.5)
-            .map((value, index) => {
-              return (
-                <div key={index}>
-                  <Accordion
-                    toggleValue={index === showindex ? true : false}
-                    indexState={() => setShowindex(index)}
-                    decription={value}
-                    title={`Click to view`}
-                  ></Accordion>
-                </div>
-              );
-            })
-        ) : (
-          setUpdateValue(updateMock)
-        )}
-      </div>
-    </div>
+    )
   );
 };

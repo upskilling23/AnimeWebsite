@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { AnimeCard } from "../components/AnimeCards";
 import { useDispatch, useSelector } from "react-redux";
 import { Content } from "../components/Accordion";
@@ -104,7 +104,7 @@ export const AddedValuesinWatchList = (
                             : cardValue.meta.episodes.toString()
                         }
                         rating={cardValue.meta.score.toString()}
-                        image={`${ImageUrl.ImageConactUrl}${cardValue.image.includes('https') ? cardValue.image.split('https://anime-world.in')[1] : cardValue.image}`}
+                        image={`${ImageUrl.ImageConactUrl}${cardValue.image.includes("https") ? cardValue.image.split("https://anime-world.in")[1] : cardValue.image}`}
                       ></RemoveIcon>
                     </div>
                   );
@@ -123,6 +123,17 @@ interface WatchListInterface {
   locateWatchedFromStore: Movie[];
 }
 export const WatchList = () => {
+  const locateUsersFromStore = useSelector(
+    (store: RootState) => store.user.items,
+  );
+  // fetching answers from redux store
+
+  useEffect(() => {
+    if (locateUsersFromStore.length === 0) {
+      navigate("/login");
+    }
+  }, [locateUsersFromStore]);
+
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const locateWatchListFromStore = useSelector(

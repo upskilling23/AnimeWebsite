@@ -12,7 +12,9 @@ export const NavBar = () => {
   const navigate = useNavigate();
 
   // Retrieve user from the Redux store
-  const locateUsersFromStore = useSelector((store: RootState) => store.user.items);
+  const locateUsersFromStore = useSelector(
+    (store: RootState) => store.user.items,
+  );
   const locateAnswersFromStore = useSelector(
     (store: RootState) => store.surveyAnswers.items,
   );
@@ -24,7 +26,13 @@ export const NavBar = () => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
       if (user) {
         // If the user is logged in, update the Redux store with user details
-        dispatch(addUser({ uid: user.uid, displayName: user.displayName, email: user.email }));
+        dispatch(
+          addUser({
+            uid: user.uid,
+            displayName: user.displayName,
+            email: user.email,
+          }),
+        );
       } else {
         // If the user is logged out, clear the user from the Redux store
         dispatch(signOutUser());
@@ -36,7 +44,9 @@ export const NavBar = () => {
   }, [dispatch]);
 
   return (
-    <nav className={`static h-full bg-orange-100 box-border border-spacing-1 border-y-4`}>
+    <nav
+      className={`static h-full bg-orange-100 box-border border-spacing-1 border-y-4`}
+    >
       <div className="comp flex justify-between">
         <div>
           <img
@@ -45,45 +55,56 @@ export const NavBar = () => {
             alt="website logo"
           ></img>
         </div>
-        {
-          locateUsersFromStore && locateUsersFromStore.length> 0 && locateAnswersFromStore
-          && 
-          <div className="items-center pt-8">
-          
-            <h1
-            onClick={()=>{navigate('/watch-list')}}
-              className={`cursor-pointer ${Stylings.TextWidth} items-center`}
-            >
-              WatchList{" "}
-              {locatorFromStoreForWatchListItems.length > 0 &&
-                (locatorFromStoreForWatchListItems.length > 1
-                  ? `${locatorFromStoreForWatchListItems.length} items`
-                  : `${locatorFromStoreForWatchListItems.length} item`)}
-            </h1>
-          
-        </div>
-        }
+        {locateUsersFromStore &&
+          locateUsersFromStore.length > 0 &&
+          locateAnswersFromStore && (
+            <div className="items-center pt-8">
+              <h1
+                onClick={() => {
+                  navigate("/watch-list");
+                }}
+                className={`cursor-pointer ${Stylings.TextWidth} items-center`}
+              >
+                WatchList{" "}
+                {locatorFromStoreForWatchListItems.length > 0 &&
+                  (locatorFromStoreForWatchListItems.length > 1
+                    ? `${locatorFromStoreForWatchListItems.length} items`
+                    : `${locatorFromStoreForWatchListItems.length} item`)}
+              </h1>
+            </div>
+          )}
         {locateUsersFromStore && locateUsersFromStore.length > 0 ? (
-          <>
-            <h2 className={`${Stylings.TextWidth} pr-[2%] my-1 pt-8`}>
-              Hi {locateUsersFromStore[0]?.displayName || "User"}
-            </h2>
+          <div className="flex flex-col justify-between">
             <button
               onClick={() => {
                 signOut(auth)
                   .then(() => {
                     dispatch(signOutUser());
-                    navigate('/');
+                    navigate("/");
                   })
                   .catch((error) => {
                     console.log(error);
                   });
               }}
-              className="px-3 mx-6 bg-gray-400 h-12 text-4xl font-bold"
+              className={`px-3 rounded-lg hover:bg-gray-100 bg-gray-400 text-wrap ${Stylings.TextWidth} h-fit font-bold`}
             >
               Sign Out
             </button>
-          </>
+            <h2
+              className={`${Stylings.TextWidth} pr-[2%] my-1 pt-8 font-medium`}
+            >
+              Hi,{" "}
+              <span className="font-extrabold">
+                {locateUsersFromStore[0]?.displayName
+                  .charAt(0)
+                  .toLocaleUpperCase() +
+                  locateUsersFromStore[0]?.displayName.slice(
+                    1,
+                    locateUsersFromStore[0]?.displayName.length,
+                  ) || "User"}
+              </span>
+            </h2>
+          </div>
         ) : (
           <button
             onClick={() => navigate("/login")}

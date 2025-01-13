@@ -97,7 +97,7 @@ export const NavBar = () => {
               <span className="font-extrabold">
                 {locateUsersFromStore[0]?.displayName
                   .charAt(0)
-                  .toLocaleUpperCase() +
+                  .toLocaleUpperCase() || "User" +
                   locateUsersFromStore[0]?.displayName.slice(
                     1,
                     locateUsersFromStore[0]?.displayName.length,

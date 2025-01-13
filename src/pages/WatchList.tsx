@@ -33,7 +33,7 @@ export const RemoveIcon = (cardValue: Content) => {
               count={cardValue.count}
               rating={cardValue.rating}
               id={cardValue.id}
-              image={cardValue.image}
+              image={ImageUrl.DefaultPlaceholderImage}
             ></AnimeCard>
           </Link>
         </div>
@@ -104,7 +104,7 @@ export const AddedValuesinWatchList = (
                             : cardValue.meta.episodes.toString()
                         }
                         rating={cardValue.meta.score.toString()}
-                        image={`${ImageUrl.ImageConactUrl}${cardValue.image.includes("https") ? cardValue.image.split("https://anime-world.in")[1] : cardValue.image}`}
+                        image={ImageUrl.DefaultPlaceholderImage}
                       ></RemoveIcon>
                     </div>
                   );

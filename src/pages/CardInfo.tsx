@@ -60,8 +60,7 @@ export const CardInfo = () => {
                         <img
                           className="w-fit h-fit"
                           src={
-                            `${ImageUrl.ImageConactUrl}` +
-                            filteredCardValue.image
+                           ImageUrl.DefaultPlaceholderImage
                           }
                         ></img>
                       </div>

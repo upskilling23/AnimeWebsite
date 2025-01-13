@@ -139,7 +139,7 @@ export const Accordion = (click: ToggleContainer) => {
             </div>
             <img
               className={`w-4/12 min-h-fit`}
-              src={`${ImageUrl.ImageConactUrl}` + click.decription.image}
+              src={ImageUrl.DefaultPlaceholderImage}
               alt={`poster of ${click.decription.title}`}
             ></img>
           </div>

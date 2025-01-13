@@ -112,7 +112,7 @@ export const Home = () => {
                       : card.meta.episodes.toString()
                   }
                   rating={card.meta.score}
-                  image={`${ImageUrl.ImageConactUrl}${card.image.includes("https") ? card.image.split("https://anime-world.in")[1] : card.image}`}
+                  image={ ImageUrl.DefaultPlaceholderImage}
                 />
               </Link>
             </div>

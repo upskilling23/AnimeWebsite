@@ -95,13 +95,13 @@ export const NavBar = () => {
             >
               Hi,{" "}
               <span className="font-extrabold">
-                {locateUsersFromStore[0]?.displayName
+                {locateUsersFromStore[0]?.displayName? (locateUsersFromStore[0]?.displayName
                   .charAt(0)
                   .toLocaleUpperCase() || "User" +
                   locateUsersFromStore[0]?.displayName.slice(
                     1,
                     locateUsersFromStore[0]?.displayName.length,
-                  ) || "User"}
+                  ) || "User" ) :  "User"}
               </span>
             </h2>
           </div>
